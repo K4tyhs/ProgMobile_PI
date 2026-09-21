@@ -10,17 +10,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 /**
- * Tela de Agenda/Calendário do aluno — a "função principal" desta etapa
- * (RFM05: exibir agenda individual com cursos, encontros e atividades).
- *
- * A grade de dias do mês é fixa nesta etapa (mostra Setembro/2026, como no
- * protótipo), mas o nome do mês exibido em cima da grade é dinâmico: os
- * botões "<" e ">" percorrem um vetor (array) com os 12 meses do ano,
- * usando o mesmo tipo de lógica com arrays visto em aula (ex: JoKenPo).
- *
- * O evento do dia 14 vem de um objeto Evento (classe de modelo), que também
- * calcula a carga horária (dado numérico) a partir dos horários de início e fim.
- */
+ * Tela de Agenda/Calendário do aluno
+ * A grade de dias do mês é fixa */
+
 public class CalendarioActivity extends AppCompatActivity {
 
     // Nomes dos 12 meses, usados para trocar o texto ao clicar em "<" e ">"

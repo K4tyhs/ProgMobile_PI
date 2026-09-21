@@ -76,10 +76,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Função principal desta tela: valida os campos de login e, se
-     * estiverem corretos, encaminha o aluno para a tela de Perfil.
-     */
+    /**Função principal desta tela: valida os campos de login e, se estiverem certo, encaminha o aluno para a tela de Perfil.*/
     private void fazerLogin() {
         String email = editEmailLogin.getText().toString().trim();
         String senha = editSenhaLogin.getText().toString().trim();
@@ -89,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        // Simulação simples de nome de usuário: usa o texto antes do "@" do email
+        // nome de usuário: usa o texto antes do "@" do email
         String nomeUsuario = email.contains("@") ? email.substring(0, email.indexOf("@")) : email;
 
         Intent irParaPerfil = new Intent(LoginActivity.this, PerfilActivity.class);

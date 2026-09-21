@@ -26,7 +26,7 @@ public class PerfilActivity extends AppCompatActivity {
     private ImageButton btnNavInicio;
     private ImageButton btnNavMensagens;
 
-    /** Nome do usuário logado, usado também ao navegar para a Agenda. */
+    /** Nome do usuário logado, navega para a Agenda. */
     private String nomeUsuario;
 
     @Override
@@ -49,7 +49,7 @@ public class PerfilActivity extends AppCompatActivity {
         }
         txtNomePerfil.setText(nomeUsuario);
 
-        // Botão "Meus Eventos (Calendário)" -> abre a Agenda
+        // Botão "Meus Eventos /Calendário"
         btnMeusEventos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,7 +57,7 @@ public class PerfilActivity extends AppCompatActivity {
             }
         });
 
-        // Ícone de calendário na barra inferior -> abre a Agenda também
+        // Ícone de calendário
         btnNavCalendario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +65,7 @@ public class PerfilActivity extends AppCompatActivity {
             }
         });
 
-        // Ícone de perfil na barra inferior: já estamos nesta tela, então não faz nada
+        //já esta nessa tela, então não faz nada
         btnNavPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

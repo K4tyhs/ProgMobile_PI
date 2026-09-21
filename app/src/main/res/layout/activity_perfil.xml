@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/preto"
+    android:background="@color/creme"
     tools:context=".PerfilActivity">
 
     <!-- Cabeçalho -->
@@ -17,7 +17,7 @@
         android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="Perfil"
-        android:textColor="@color/creme"
+        android:textColor="@color/preto"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,11 +40,11 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Cartão com foto/nome do aluno -->
+            <!-- foto/nome do aluno -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/creme"
+                android:background="@color/cremeForte"
                 android:orientation="horizontal"
                 android:padding="12dp">
 
@@ -118,20 +118,20 @@
                 android:text="Meus Eventos (Calendário)"
                 android:textColor="@color/creme" />
 
-            <!-- Certificados (conteúdo estático nesta etapa) -->
+            <!-- Certificados estático nesta -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Certificados"
-                android:textColor="@color/creme"
+                android:textColor="@color/preto"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@color/creme"
+                android:background="@color/cremeForte"
                 android:padding="10dp"
                 android:text="Empreendedorismo — FECAP"
                 android:textColor="@color/preto" />
@@ -140,7 +140,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:background="@color/creme"
+                android:background="@color/cremeForte"
                 android:padding="10dp"
                 android:text="Plano de Carreira — Insper"
                 android:textColor="@color/preto" />
@@ -149,18 +149,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:background="@color/creme"
+                android:background="@color/cremeForte"
                 android:padding="10dp"
                 android:text="Soft Skills — ESPM"
                 android:textColor="@color/preto" />
 
-            <!-- Badges (estático) -->
+            <!-- Badges estático -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Badges"
-                android:textColor="@color/creme"
+                android:textColor="@color/preto"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -190,40 +190,39 @@
                 <View
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:background="@color/creme" />
+                    android:background="@color/cremeForte" />
             </LinearLayout>
 
-            <!-- Comunidades (estático) -->
+            <!-- Comunidades estático -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="Comunidades: Tech · STEAM · Mulheres"
-                android:textColor="@color/creme" />
+                android:textColor="@color/preto" />
 
         </LinearLayout>
     </ScrollView>
 
-    <!-- Barra de navegação inferior, presente também na tela de Calendário -->
+    <!-- Barra de navegação inferior -->
     <LinearLayout
         android:id="@+id/barraNavegacaoInferior"
         android:layout_width="0dp"
         android:layout_height="56dp"
-        android:background="@color/roxo"
+        android:background="@color/amarelo"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <!-- Reservado para a Entrega 2 (ex: Início) -->
         <ImageButton
             android:id="@+id/btnNavInicio"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/roxo"
+            android:background="@color/amareloClaro"
             android:contentDescription="Início (Entrega 2)"
             android:src="@drawable/ic_nav_generico" />
 
@@ -233,7 +232,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/roxo"
+            android:background="@color/amareloClaro"
             android:contentDescription="Mensagens (Entrega 2)"
             android:src="@drawable/ic_nav_generico" />
 
@@ -242,7 +241,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/roxo"
+            android:background="@color/amareloClaro"
             android:contentDescription="Ir para o Calendário"
             android:src="@drawable/ic_nav_calendario" />
 

@@ -6,17 +6,17 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/preto"
+    android:background="@color/creme"
     tools:context=".CalendarioActivity">
 
     <TextView
         android:id="@+id/txtTituloAgenda"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="60dp"
         android:gravity="center"
         android:text="Agenda"
-        android:textColor="@color/creme"
+        android:textColor="@color/preto"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -219,7 +219,7 @@
         android:id="@+id/barraNavegacaoInferior"
         android:layout_width="0dp"
         android:layout_height="56dp"
-        android:background="@color/roxo"
+        android:background="@color/amarelo"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -231,7 +231,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/roxo"
+            android:background="@color/amareloClaro"
             android:contentDescription="Início (Entrega 2)"
             android:src="@drawable/ic_nav_generico" />
 
@@ -240,7 +240,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/roxo"
+            android:background="@color/amareloClaro"
             android:contentDescription="Mensagens (Entrega 2)"
             android:src="@drawable/ic_nav_generico" />
 
@@ -258,7 +258,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/roxo"
+            android:background="@color/amareloClaro"
             android:contentDescription="Ir para o Perfil"
             android:src="@drawable/ic_nav_perfil" />
 
