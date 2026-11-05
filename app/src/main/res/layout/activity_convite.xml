@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Convite (mockups "Convite-frente", "Convite-verso" e "QR Code").
+    Frente: convite especial. Ao tocar, o card vira e mostra o QR Code do ingresso.
+    Abaixo: registro de presença (função principal da Entrega 2).
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/pe_fundo">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/include_toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp">
+
+            <!-- Frente do convite -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_frente"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:contentDescription="@string/convite_virar_desc"
+                android:focusable="true"
+                android:minHeight="400dp"
+                app:cardBackgroundColor="@color/pe_roxo"
+                app:cardCornerRadius="32dp"
+                app:cardElevation="6dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:strokeWidth="0dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="400dp"
+                    android:padding="24dp">
+
+                    <TextView
+                        android:id="@+id/txt_convite_titulo"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/convite_especial"
+                        android:textColor="@color/white"
+                        android:textSize="19sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/txt_convite"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_chainStyle="packed" />
+
+                    <TextView
+                        android:id="@+id/txt_convite"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:lineSpacingExtra="3dp"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        app:layout_constraintBottom_toTopOf="@id/txt_convite_regra"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_convite_titulo"
+                        tools:text="Você, João Silva, foi selecionado para participar..." />
+
+                    <TextView
+                        android:id="@+id/txt_convite_regra"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/convite_regra"
+                        android:textColor="@color/pe_roxo_hint"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toTopOf="@id/txt_convite_toque"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_convite" />
+
+                    <TextView
+                        android:id="@+id/txt_convite_toque"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:drawablePadding="6dp"
+                        android:gravity="center"
+                        android:text="@string/convite_toque_qr"
+                        android:textColor="@color/pe_amarelo_claro"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        app:drawableTint="@color/pe_amarelo_claro"
+                        app:drawableTopCompat="@drawable/ic_qrcode"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_convite_regra" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Verso do convite: QR Code do ingresso (mesma posição da frente) -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_verso"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="invisible"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="32dp"
+                app:cardElevation="6dp"
+                app:layout_constraintBottom_toBottomOf="@id/card_frente"
+                app:layout_constraintEnd_toEndOf="@id/card_frente"
+                app:layout_constraintStart_toStartOf="@id/card_frente"
+                app:layout_constraintTop_toTopOf="@id/card_frente"
+                app:strokeColor="@color/pe_roxo"
+                app:strokeWidth="4dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="24dp">
+
+                    <TextView
+                        android:id="@+id/txt_verso_titulo"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@color/pe_ink"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/img_qr"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_chainStyle="packed"
+                        tools:text="Currículo criativo: Workshop" />
+
+                    <ImageView
+                        android:id="@+id/img_qr"
+                        android:layout_width="230dp"
+                        android:layout_height="230dp"
+                        android:layout_marginTop="12dp"
+                        android:contentDescription="@string/qr_ingresso_desc"
+                        app:layout_constraintBottom_toTopOf="@id/txt_codigo_ingresso"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_verso_titulo" />
+
+                    <TextView
+                        android:id="@+id/txt_codigo_ingresso"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:letterSpacing="0.15"
+                        android:textColor="@color/pe_ink"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/txt_apresente"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/img_qr"
+                        tools:text="PE-7KQ2MD" />
+
+                    <TextView
+                        android:id="@+id/txt_apresente"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:gravity="center"
+                        android:text="@string/convite_apresente"
+                        android:textColor="@color/pe_ink"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_codigo_ingresso" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Status da presença de hoje -->
+            <TextView
+                android:id="@+id/txt_status_presenca"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:accessibilityLiveRegion="polite"
+                android:background="@drawable/bg_lembrete"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:padding="12dp"
+                android:textColor="@color/pe_ink"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:drawableStartCompat="@drawable/ic_check"
+                app:drawableTint="@color/pe_verde_texto"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_frente"
+                tools:text="Presença de hoje registrada às 14:05 · enviada"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/txt_participacao"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.PE.Corpo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_status_presenca"
+                tools:text="Participação: 50% (1 de 2 encontros)" />
+
+            <Button
+                android:id="@+id/btn_checkin"
+                style="@style/Widget.PE.Button.Principal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/registrar_presenca"
+                app:icon="@drawable/ic_camera"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_participacao" />
+
+            <Button
+                android:id="@+id/btn_codigo"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/digitar_codigo"
+                app:icon="@drawable/ic_teclado"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_checkin" />
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progresso"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:indeterminate="true"
+                android:visibility="gone"
+                app:indicatorSize="28dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_codigo" />
+
+            <TextView
+                android:id="@+id/txt_dica_offline"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/checkin_offline_dica"
+                android:textAppearance="@style/TextAppearance.PE.Legenda"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/progresso" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

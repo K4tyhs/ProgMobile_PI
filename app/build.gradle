@@ -1,0 +1,75 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'br.org.proximaetapa.app'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "br.org.proximaetapa.app"
+        minSdk 24
+        targetSdk 34
+        versionCode 2
+        versionName "2.0 - Entrega 2"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // ---------------------------------------------------------------
+        // INTEGRAÇÃO COM O SUPABASE (PostgreSQL + Auth)
+        // SUPABASE_KEY é a chave PÚBLICA (sb_publishable_...): pode ficar
+        // no app, porque o acesso aos dados é protegido pelo login do
+        // aluno e pelas regras de segurança (RLS) do banco.
+        // NUNCA coloque aqui a chave secreta (sb_secret_... / service_role).
+        // ---------------------------------------------------------------
+        buildConfigField "String", "SUPABASE_URL", "\"https://yenrfsbehpdehsyahmgs.supabase.co/\""
+        buildConfigField "String", "SUPABASE_KEY", "\"sb_publishable_OwPlgsc0cEdBchBfgP4baA_f3dVOY8D\""
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+}
+
+dependencies {
+    // Interface (Material 3, ConstraintLayout, RecyclerView)
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
+    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+    implementation 'androidx.fragment:fragment:1.8.5'
+    implementation 'androidx.lifecycle:lifecycle-livedata:2.8.7'
+
+    // Persistência local (SQLite via Room)
+    implementation 'androidx.room:room-runtime:2.6.1'
+    annotationProcessor 'androidx.room:room-compiler:2.6.1'
+
+    // Sincronização em segundo plano
+    implementation 'androidx.work:work-runtime:2.9.1'
+
+    // API REST + JSON
+    implementation 'com.squareup.retrofit2:retrofit:2.11.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.11.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.12.0'
+
+    // QR Code (leitura com a câmera e geração do convite)
+    implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+
+    // Armazenamento seguro do token de sessão
+    implementation 'androidx.security:security-crypto:1.1.0-alpha06'
+
+    // Testes unitários das regras de negócio
+    testImplementation 'junit:junit:4.13.2'
+}

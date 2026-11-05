@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Segurança de rede: o app só aceita HTTPS (o Supabase usa HTTPS).
+
+    debug-overrides vale SOMENTE nas versões de desenvolvimento (debug).
+    A rede da instituição usa um firewall Fortinet que inspeciona o HTTPS
+    e troca os certificados dos sites pelo dele. O Windows confia nesse
+    certificado, mas o Android não; por isso, no debug, o app também
+    confia nele (res/raw/rede_fortinet_ca.pem) e nos certificados que o
+    usuário instalar no aparelho. A versão release NÃO é afetada.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+
+    <debug-overrides>
+        <trust-anchors>
+            <certificates src="@raw/rede_fortinet_ca" />
+            <certificates src="user" />
+        </trust-anchors>
+    </debug-overrides>
+</network-security-config>
