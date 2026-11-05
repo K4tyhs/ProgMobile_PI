@@ -28,7 +28,7 @@ public class CadastroActivity extends AppCompatActivity {
 
     private static final int SENHA_MINIMA = 6;
 
-    private EditText edtNome, edtEmail, edtTelefone, edtEndereco, edtCidade, edtEscola, edtSenha, edtConfirmacao;
+    private EditText edtNome, edtEmail, edtTelefone, edtSenha, edtConfirmacao;
     private Button btnCadastrar;
     private View progresso;
 
@@ -40,9 +40,6 @@ public class CadastroActivity extends AppCompatActivity {
         edtNome = findViewById(R.id.edt_nome);
         edtEmail = findViewById(R.id.edt_email);
         edtTelefone = findViewById(R.id.edt_telefone);
-        edtEndereco = findViewById(R.id.edt_endereco);
-        edtCidade = findViewById(R.id.edt_cidade);
-        edtEscola = findViewById(R.id.edt_escola);
         edtSenha = findViewById(R.id.edt_senha);
         edtConfirmacao = findViewById(R.id.edt_confirmacao);
         btnCadastrar = findViewById(R.id.btn_cadastrar);
@@ -91,10 +88,6 @@ public class CadastroActivity extends AppCompatActivity {
         req.nome = nome;
         req.email = email;
         req.telefone = telefone;
-        // Opcionais: vão em "data" (user_metadata) e o gatilho do banco preenche o aluno
-        req.endereco = LoginActivity.texto(edtEndereco);
-        req.cidade = LoginActivity.texto(edtCidade);
-        req.escola = LoginActivity.texto(edtEscola);
         req.senha = senha;
 
         progresso.setVisibility(View.VISIBLE);

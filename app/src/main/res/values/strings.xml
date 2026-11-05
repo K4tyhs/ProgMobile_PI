@@ -331,4 +331,5 @@
         <item>Posso cancelar uma inscrição?</item>
         <item>O que são os testes de perfil?</item>
     </string-array>
+    <string name="avatar_aluno">Avatar do aluno</string>
 </resources>
