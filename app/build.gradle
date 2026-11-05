@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'br.org.proximaetapa.app'
+    namespace 'com.example.proximaetapa'
     compileSdk 35
 
     defaultConfig {
-        applicationId "br.org.proximaetapa.app"
+        applicationId "com.example.proximaetapa"
         minSdk 24
         targetSdk 34
         versionCode 2
@@ -24,6 +24,10 @@ android {
         // ---------------------------------------------------------------
         buildConfigField "String", "SUPABASE_URL", "\"https://yenrfsbehpdehsyahmgs.supabase.co/\""
         buildConfigField "String", "SUPABASE_KEY", "\"sb_publishable_OwPlgsc0cEdBchBfgP4baA_f3dVOY8D\""
+
+        // Modo demonstração (dados fictícios sem Supabase). DESLIGADO por padrão:
+        // o app só entra com uma sessão válida do Supabase Auth.
+        buildConfigField "boolean", "MODO_DEMO", "false"
     }
 
     buildFeatures {
@@ -38,6 +42,8 @@ android {
     }
 
     compileOptions {
+        // java.time (fuso America/Sao_Paulo) no Android 7.0+ (API 24)
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
@@ -64,8 +70,11 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.11.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.12.0'
 
-    // QR Code (leitura com a câmera e geração do convite)
+    // QR Code: só GERAÇÃO do ingresso (BarcodeEncoder), sem leitura pela câmera
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+
+    // java.time em APIs antigas
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
 
     // Armazenamento seguro do token de sessão
     implementation 'androidx.security:security-crypto:1.1.0-alpha06'

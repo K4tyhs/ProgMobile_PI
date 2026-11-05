@@ -5,14 +5,16 @@
     <!-- Comunicação com a API e verificação de conexão -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!-- Leitura do QR Code de presença -->
-    <uses-permission android:name="android.permission.CAMERA" />
-    <!-- Notificações (Android 13+) -->
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-
+    <!-- O app NÃO lê QR Code: o check-in é feito por um leitor web externo.
+         Remove a permissão de câmera que a biblioteca ZXing traria no merge. -->
+    <uses-permission
+        android:name="android.permission.CAMERA"
+        tools:node="remove" />
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
+    <!-- Notificações (Android 13+) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:name=".App"
@@ -108,11 +110,10 @@
             android:name=".ui.config.ConfiguracoesActivity"
             android:exported="false" />
 
-        <!-- Leitor de QR Code da biblioteca ZXing: libera a rotação da tela -->
+        <!-- Leitor de QR Code da ZXing não é usado (o app só gera o ingresso) -->
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
-            android:screenOrientation="fullSensor"
-            tools:replace="screenOrientation" />
+            tools:node="remove" />
 
         <!-- Compartilha os PDFs de certificado com outros apps de forma segura -->
         <provider

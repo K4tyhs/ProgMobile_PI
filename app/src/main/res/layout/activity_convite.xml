@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Convite (mockups "Convite-frente", "Convite-verso" e "QR Code").
-    Frente: convite especial. Ao tocar, o card vira e mostra o QR Code do ingresso.
-    Abaixo: registro de presença (função principal da Entrega 2).
+    Ingresso (mockups "Convite-frente", "Convite-verso" e "QR Code").
+    Frente: convite especial. Ao tocar, o card vira e mostra o QR Code do ingresso
+    "PE:INGRESSO:{id}:{codigoIngresso}". O app NÃO lê QR nem registra presença:
+    o leitor web da Próxima Etapa valida o QR na entrada (validar_ingresso).
 -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -33,7 +34,7 @@
             android:layout_height="wrap_content"
             android:padding="20dp">
 
-            <!-- Frente do convite -->
+            <!-- Frente do convite (cor da instituição aplicada no código) -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_frente"
                 android:layout_width="0dp"
@@ -83,7 +84,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/txt_convite_titulo"
-                        tools:text="Você, João Silva, foi selecionado para participar..." />
+                        tools:text="Você, Ketlin, foi selecionada para participar..." />
 
                     <TextView
                         android:id="@+id/txt_convite_regra"
@@ -118,7 +119,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Verso do convite: QR Code do ingresso (mesma posição da frente) -->
+            <!-- Verso: QR Code do ingresso (mesma posição da frente) -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_verso"
                 android:layout_width="0dp"
@@ -139,7 +140,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="24dp">
+                    android:padding="20dp">
 
                     <TextView
                         android:id="@+id/txt_verso_titulo"
@@ -149,13 +150,28 @@
                         android:textColor="@color/pe_ink"
                         android:textSize="17sp"
                         android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@id/img_qr"
+                        app:layout_constraintBottom_toTopOf="@id/txt_verso_quando"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_chainStyle="packed"
                         tools:text="Currículo criativo: Workshop" />
 
+                    <TextView
+                        android:id="@+id/txt_verso_quando"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:gravity="center"
+                        android:textColor="@color/pe_ink"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toTopOf="@id/img_qr"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_verso_titulo"
+                        tools:text="Encontro: 10/11/2026 · 19:00 às 22:00" />
+
+                    <!-- QR (DISPONIVEL) ou texto de indisponível/sincronizando no mesmo lugar -->
                     <ImageView
                         android:id="@+id/img_qr"
                         android:layout_width="230dp"
@@ -165,7 +181,24 @@
                         app:layout_constraintBottom_toTopOf="@id/txt_codigo_ingresso"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/txt_verso_titulo" />
+                        app:layout_constraintTop_toBottomOf="@id/txt_verso_quando" />
+
+                    <TextView
+                        android:id="@+id/txt_qr_estado"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:accessibilityLiveRegion="polite"
+                        android:gravity="center"
+                        android:padding="12dp"
+                        android:textColor="@color/pe_ink"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@id/img_qr"
+                        app:layout_constraintEnd_toEndOf="@id/img_qr"
+                        app:layout_constraintStart_toStartOf="@id/img_qr"
+                        app:layout_constraintTop_toTopOf="@id/img_qr"
+                        tools:text="Sincronizando ingresso…" />
 
                     <TextView
                         android:id="@+id/txt_codigo_ingresso"
@@ -176,34 +209,51 @@
                         android:textColor="@color/pe_ink"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@id/txt_apresente"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/img_qr"
                         tools:text="PE-7KQ2MD" />
-
-                    <TextView
-                        android:id="@+id/txt_apresente"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:gravity="center"
-                        android:text="@string/convite_apresente"
-                        android:textColor="@color/pe_ink"
-                        android:textSize="13sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/txt_codigo_ingresso" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Status da presença de hoje -->
+            <!-- Aviso fixo sobre a janela de check-in -->
+            <TextView
+                android:id="@+id/txt_aviso_ingresso"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_lembrete"
+                android:padding="12dp"
+                android:text="@string/ingresso_aviso"
+                android:textColor="@color/pe_ink"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_frente" />
+
+            <!-- Situação do check-in agora (CheckinValidator, só informativo) -->
+            <TextView
+                android:id="@+id/txt_janela"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:accessibilityLiveRegion="polite"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:textAppearance="@style/TextAppearance.PE.Corpo"
+                app:drawableStartCompat="@drawable/ic_relogio"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_aviso_ingresso"
+                tools:text="Check-in aberto agora (até 23:00)." />
+
+            <!-- Presença de hoje confirmada pelo servidor (chega pela sincronização) -->
             <TextView
                 android:id="@+id/txt_status_presenca"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="12dp"
                 android:accessibilityLiveRegion="polite"
                 android:background="@drawable/bg_lembrete"
                 android:drawablePadding="8dp"
@@ -216,8 +266,8 @@
                 app:drawableTint="@color/pe_verde_texto"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/card_frente"
-                tools:text="Presença de hoje registrada às 14:05 · enviada"
+                app:layout_constraintTop_toBottomOf="@id/txt_janela"
+                tools:text="Presença de hoje confirmada às 19:05. Bom encontro!"
                 tools:visibility="visible" />
 
             <TextView
@@ -231,53 +281,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txt_status_presenca"
                 tools:text="Participação: 50% (1 de 2 encontros)" />
-
-            <Button
-                android:id="@+id/btn_checkin"
-                style="@style/Widget.PE.Button.Principal"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="@string/registrar_presenca"
-                app:icon="@drawable/ic_camera"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txt_participacao" />
-
-            <Button
-                android:id="@+id/btn_codigo"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:text="@string/digitar_codigo"
-                app:icon="@drawable/ic_teclado"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_checkin" />
-
-            <com.google.android.material.progressindicator.CircularProgressIndicator
-                android:id="@+id/progresso"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:indeterminate="true"
-                android:visibility="gone"
-                app:indicatorSize="28dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_codigo" />
-
-            <TextView
-                android:id="@+id/txt_dica_offline"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/checkin_offline_dica"
-                android:textAppearance="@style/TextAppearance.PE.Legenda"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/progresso" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

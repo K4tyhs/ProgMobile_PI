@@ -19,8 +19,6 @@
     <color name="pe_verde_escuro">#1F4D0A</color>  <!-- cartão digital do aluno -->
     <color name="pe_verde_botao">#C4E5AD</color>   <!-- Figma: botões "Inscreva-se" e selos -->
     <color name="pe_verde_botao_texto">#1F4B00</color>
-    <color name="pe_roxo_banner">#480072</color>   <!-- Figma: banner da Home -->
-    <color name="pe_roxo_proxia">#7113FE</color>   <!-- Figma: balão da ProxIA -->
     <color name="pe_cinza_barra">#E4E4E4</color>   <!-- Figma: barra lateral de card já lido -->
     <color name="pe_borda_card">#D9D9D9</color>
 
@@ -35,7 +33,6 @@
     <!-- Neutros -->
     <color name="pe_ink">#2C293D</color>
     <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
 
     <!-- Cores que mudam no tema escuro (ver values-night) -->
     <color name="pe_fundo">#FFFFFF</color>

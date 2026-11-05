@@ -59,7 +59,7 @@
             tools:text="Seu resultado: Influente"
             tools:visibility="visible" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_iniciar"
             style="@style/Widget.PE.Button.Verde"
             android:layout_width="wrap_content"
@@ -69,7 +69,7 @@
             app:layout_constraintStart_toStartOf="@id/txt_titulo"
             app:layout_constraintTop_toBottomOf="@id/txt_resultado" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_resultado"
             style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="wrap_content"

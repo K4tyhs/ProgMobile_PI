@@ -232,7 +232,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/fundo_acoes" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_principal"
         style="@style/Widget.PE.Button.Verde"
         android:layout_width="0dp"
@@ -247,7 +247,7 @@
         app:layout_goneMarginBottom="14dp"
         tools:text="Inscreva-se" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_secundario"
         style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="0dp"

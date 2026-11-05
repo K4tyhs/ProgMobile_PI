@@ -127,11 +127,6 @@
         <item name="cornerSizeBottomRight">0dp</item>
     </style>
 
-    <style name="ShapeAppearance.PE.Circulo" parent="">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">50%</item>
-    </style>
-
     <!-- Botão pílula coral ("Cancelar") -->
     <style name="Widget.PE.Button.Coral" parent="Widget.Material3.Button">
         <item name="backgroundTint">@color/pe_coral_claro</item>

@@ -19,12 +19,10 @@
     <string name="apagar">Apagar</string>
     <string name="sair">Sair</string>
     <string name="desfazer">Desfazer</string>
-    <string name="novo">● NOVO</string>
     <string name="pendente">pendente</string>
     <string name="ver_mais">Ver mais</string>
     <string name="concluir">Concluir</string>
     <string name="proxima">Próxima</string>
-    <string name="restaurar">Restaurar</string>
     <string name="sincronizar">Sincronizar dados</string>
 
     <!-- Login e cadastro -->
@@ -33,21 +31,16 @@
     <string name="campo_email">E-mail</string>
     <string name="campo_senha">Senha</string>
     <string name="campo_nome">Nome completo</string>
-    <string name="campo_endereco">Endereço</string>
-    <string name="campo_cidade">Cidade / bairro</string>
-    <string name="campo_escola">Escola</string>
     <string name="campo_confirmacao_senha">Confirmação de senha</string>
     <string name="campo_linkedin">Link do LinkedIn (opcional)</string>
     <string name="senha_ajuda">Mínimo de 6 caracteres</string>
     <string name="mostrar_senha">Mostrar senha</string>
     <string name="ocultar_senha">Ocultar senha</string>
-    <string name="hint_email">nome@email.com</string>
     <string name="hint_cad_nome">Nome completo:</string>
     <string name="hint_cad_email">E-mail:</string>
     <string name="hint_cad_telefone">Telefone:</string>
     <string name="hint_cad_senha">Senha:</string>
     <string name="hint_cad_confirmacao">Confirmação de senha:</string>
-    <string name="campo_telefone">Telefone</string>
     <string name="recuperacao_titulo">Recuperação de Senha</string>
     <string name="btn_enviar_link">Enviar link de recuperação</string>
     <string name="nova_senha_titulo">Nova Senha</string>
@@ -55,10 +48,8 @@
     <string name="btn_salvar_senha">Salvar nova senha</string>
     <string name="erro_link_recuperacao">Este link de recuperação é inválido ou expirou. Peça um novo em "Esqueci minha senha".</string>
     <string name="erro_telefone">Digite um telefone válido com DDD, como (11) 91234-5678</string>
-    <string name="hint_senha">Digite sua senha</string>
     <string name="hint_nome">Nome e sobrenome</string>
     <string name="hint_opcional">Opcional</string>
-    <string name="hint_codigo">Ex.: NETWORK4</string>
     <string name="hint_linkedin">linkedin.com/in/seu-nome</string>
     <string name="rotulo_endereco">Endereço (opcional)</string>
     <string name="rotulo_cidade">Cidade / bairro (opcional)</string>
@@ -68,8 +59,6 @@
     <string name="btn_esqueci_senha">Esqueci minha senha</string>
     <string name="btn_criar_conta">Criar minha conta</string>
     <string name="btn_ja_tenho_conta">Já tenho uma conta</string>
-    <string name="cadastro_lgpd">Usamos seus dados só para acompanhar sua jornada na Próxima Etapa. Endereço, cidade e escola não aparecem no seu cartão do aluno.</string>
-    <string name="recuperar_titulo">Recuperar senha</string>
     <string name="recuperar_mensagem">Digite o e-mail da sua conta. Vamos enviar as instruções para criar uma nova senha.</string>
     <string name="erro_email_invalido">Digite um e-mail válido, como nome@email.com</string>
     <string name="erro_senha_vazia">Digite sua senha</string>
@@ -157,26 +146,27 @@
     <string name="sem_app_agenda">Nenhum app de agenda encontrado no celular.</string>
     <string name="sem_navegador">Nenhum navegador encontrado no celular.</string>
 
-    <!-- Convite e presença -->
-    <string name="convite_titulo">Convite: QR Code</string>
+    <!-- Convite / ingresso com QR Code (a presença é validada pelo leitor web) -->
+    <string name="convite_titulo">Meu ingresso</string>
     <string name="convite_especial">CONVITE ESPECIAL</string>
-    <string name="convite_texto">Você, %1$s, foi selecionado(a) para participar com a gente de \"%2$s\", que vai acontecer em %3$s (%4$s).\n\nPara validar sua presença, toque no convite para ver o seu QR Code de entrada e, no evento, use o botão \"Registrar presença\". Aguardamos você lá!</string>
+    <string name="convite_texto">Você, %1$s, foi selecionado(a) para participar com a gente de \"%2$s\", que vai acontecer em %3$s (%4$s).\n\nToque no convite para ver o seu QR Code de entrada e apresente na entrada de cada encontro. Aguardamos você lá!</string>
     <string name="convite_regra">*Resgatar o QR Code e não comparecer resulta na impossibilidade de participar dos próximos 3 eventos da Próxima Etapa.</string>
     <string name="convite_toque_qr">Toque para ver seu QR Code</string>
     <string name="convite_virar_desc">Convite. Toque duas vezes para virar e ver o QR Code.</string>
-    <string name="convite_apresente">Apresente este QR Code na entrada do evento.</string>
     <string name="qr_ingresso_desc">QR Code do seu ingresso</string>
-    <string name="registrar_presenca">Registrar presença (ler QR do evento)</string>
-    <string name="digitar_codigo">Digitar código do evento</string>
-    <string name="digitar_codigo_msg">Use esta opção se a câmera não funcionar. Peça o código à equipe da Próxima Etapa no evento.</string>
-    <string name="codigo_evento">Código do evento</string>
-    <string name="leitor_prompt">Aponte a câmera para o QR Code mostrado no evento</string>
-    <string name="presenca_ok_titulo">Presença registrada!</string>
-    <string name="presenca_erro_titulo">Não foi possível registrar</string>
-    <string name="presenca_hoje_enviada">Presença de hoje registrada às %1$s e enviada.</string>
-    <string name="presenca_hoje_pendente">Presença de hoje registrada às %1$s. Aguardando internet para enviar.</string>
+    <string name="ingresso_aviso">Apresente este QR Code na entrada. O check-in é liberado 1h antes do início e vai até 1h depois do fim do encontro.</string>
+    <string name="ingresso_indisponivel">Ingresso indisponível</string>
+    <string name="ingresso_sincronizando">Sincronizando ingresso…</string>
+    <string name="ingresso_sincronizando_dica">O QR Code aparece assim que a Próxima Etapa confirmar sua inscrição (precisa de internet).</string>
+    <string name="ingresso_encontro">Encontro: %1$s</string>
+    <string name="checkin_no_horario">Check-in aberto agora (até %1$s).</string>
+    <string name="checkin_antes">Hoje tem encontro. O check-in abre às %1$s.</string>
+    <string name="checkin_encerrado">O check-in de hoje já encerrou (fechou às %1$s).</string>
+    <string name="checkin_fora">Hoje não há encontro deste evento.</string>
+    <string name="checkin_externo">Evento externo: não há check-in da Próxima Etapa.</string>
+    <string name="presenca_confirmada_em">%1$s · confirmada na entrada</string>
+    <string name="presenca_hoje_confirmada">Presença de hoje confirmada às %1$s. Bom encontro!</string>
     <string name="participacao_evento">Participação: %1$d%% (%2$d de %3$d encontros)</string>
-    <string name="checkin_offline_dica">Sem internet no evento? Pode registrar assim mesmo: a presença fica salva no celular e é enviada sozinha quando a conexão voltar.</string>
 
     <!-- Meus ingressos -->
     <string name="lembrete_ingressos">Lembrete: caso você aceite o convite e não compareça no dia do evento, ficará suspenso(a) das atividades durante 3 meses. Se não puder comparecer, cancele sua inscrição até 72h antes do evento.</string>
@@ -190,7 +180,6 @@
     <string name="part_certificado_em_breve">Presença mínima atingida: o certificado sai ao fim do curso</string>
     <string name="part_comeca_em">Começa em %1$s</string>
     <string name="historico_presenca">Histórico de presença</string>
-    <string name="aguardando_envio">%1$d aguardando envio</string>
     <string name="cancelar_inscricao">Cancelar inscrição</string>
     <string name="cancelar_inscricao_titulo">Cancelar inscrição?</string>
     <string name="cancelar_inscricao_msg">Sua vaga em \"%1$s\" será liberada para outro estudante.</string>

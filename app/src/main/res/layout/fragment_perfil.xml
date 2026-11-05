@@ -354,7 +354,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/txt_rotulo_cursos" />
 
-                <br.org.proximaetapa.app.ui.widget.BarChartView
+                <com.example.proximaetapa.ui.widget.BarChartView
                     android:id="@+id/grafico_barras"
                     android:layout_width="0dp"
                     android:layout_height="180dp"
@@ -374,7 +374,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/grafico_barras" />
 
-                <br.org.proximaetapa.app.ui.widget.DonutChartView
+                <com.example.proximaetapa.ui.widget.DonutChartView
                     android:id="@+id/grafico_rosca"
                     android:layout_width="0dp"
                     android:layout_height="180dp"

@@ -6,7 +6,5 @@
     <dimen name="pe_auth_logo_topo">130dp</dimen>
 
     <!-- Margem lateral das telas internas e dos cards -->
-    <dimen name="pe_margem_tela">24dp</dimen>
     <!-- Espaço reservado para a barra inferior flutuante -->
-    <dimen name="pe_espaco_nav">96dp</dimen>
 </resources>

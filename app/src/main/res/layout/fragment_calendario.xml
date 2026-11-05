@@ -43,7 +43,7 @@
         app:layout_constraintTop_toTopOf="@id/btn_semana_anterior"
         app:tint="@color/pe_texto" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_hoje"
         style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="wrap_content"

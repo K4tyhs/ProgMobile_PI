@@ -79,6 +79,50 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edt_email" />
 
+        <!-- Dados demográficos opcionais (vão para user_metadata no signup;
+             aparecem em Editar perfil e nunca no cartão do aluno - LGPD) -->
+        <EditText
+            android:id="@+id/edt_endereco"
+            style="@style/Widget.PE.Campo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:autofillHints="postalAddress"
+            android:hint="@string/rotulo_endereco"
+            android:imeOptions="actionNext"
+            android:inputType="textPostalAddress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edt_telefone" />
+
+        <EditText
+            android:id="@+id/edt_cidade"
+            style="@style/Widget.PE.Campo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="@string/rotulo_cidade"
+            android:imeOptions="actionNext"
+            android:importantForAutofill="no"
+            android:inputType="textCapWords"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edt_endereco" />
+
+        <EditText
+            android:id="@+id/edt_escola"
+            style="@style/Widget.PE.Campo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="@string/rotulo_escola"
+            android:imeOptions="actionNext"
+            android:importantForAutofill="no"
+            android:inputType="textCapWords"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edt_cidade" />
+
         <EditText
             android:id="@+id/edt_senha"
             style="@style/Widget.PE.Campo"
@@ -92,7 +136,7 @@
             android:paddingEnd="52dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edt_telefone" />
+            app:layout_constraintTop_toBottomOf="@id/edt_escola" />
 
         <ImageButton
             android:id="@+id/btn_olho_senha"
