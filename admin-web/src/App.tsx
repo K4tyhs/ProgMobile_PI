@@ -3,7 +3,6 @@ import routerProvider, { CatchAllNavigate, NavigateToResource } from "@refinedev
 import { lazy, Suspense } from "react";
 import { BrowserRouter, HashRouter, MemoryRouter, Outlet, Route, Routes } from "react-router";
 import { AppLayout } from "./components/layout/AppLayout";
-import { ComingSoon } from "./components/ui/ComingSoon";
 import { resources } from "./config/resources";
 import { AlunoShowPage } from "./pages/alunos/AlunoShowPage";
 import { AlunosListPage } from "./pages/alunos/AlunosListPage";
@@ -22,15 +21,11 @@ import { dataProvider } from "./providers/dataProvider";
  * VITE_ROUTER=hash ou memory só existe para prévias hospedadas em páginas
  * que não aceitam rotas próprias (ex.: o link de demonstração).
  */
-const modoRota = import.meta.env.VITE_ROUTER ?? (import.meta.env.VITE_HASH_ROUTER === "true" ? "hash" : "browser");
+const modoRota = import.meta.env.VITE_ROUTER ?? "browser";
 const Router = modoRota === "memory" ? MemoryRouter : modoRota === "hash" ? HashRouter : BrowserRouter;
 
 /** O check-in carrega a biblioteca de leitura de QR só quando a tela é aberta. */
 const CheckinPage = lazy(() => import("./pages/checkin/CheckinPage").then((m) => ({ default: m.CheckinPage })));
-
-/** Áreas que ainda não foram implementadas mostram a página "em construção". */
-const AREAS_IMPLEMENTADAS = ["dashboard", "alunos", "palestras", "checkin", "comunicacao"];
-const areasPendentes = resources.filter((recurso) => !AREAS_IMPLEMENTADAS.includes(recurso.name));
 
 function AreaLogada() {
   return (
@@ -77,13 +72,6 @@ export default function App() {
               <Route path=":id" element={<PalestraShowPage />} />
               <Route path=":id/editar" element={<PalestraFormPage />} />
             </Route>
-            {areasPendentes.map((recurso) => (
-              <Route
-                key={recurso.name}
-                path={`${String(recurso.list).replace(/^\//, "")}/*`}
-                element={<ComingSoon meta={recurso.meta} />}
-              />
-            ))}
           </Route>
 
           <Route

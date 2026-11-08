@@ -63,8 +63,8 @@ export function PalestrasListPage() {
       header: "Vagas",
       align: "right",
       render: (p) => (
-        <span className={p.contagem.confirmados >= p.vagas ? styles.lotada : undefined}>
-          {p.contagem.confirmados} / {p.vagas}
+        <span className={p.vagas !== null && p.contagem.confirmados >= p.vagas ? styles.lotada : undefined}>
+          {p.contagem.confirmados} / {p.vagas ?? "—"}
         </span>
       ),
     },

@@ -9,10 +9,8 @@ import { SelectField } from "../../components/ui/form/Field";
 import { PageHeader } from "../../components/ui/PageHeader";
 import { useAcaoAdmin } from "../../hooks/useAcaoAdmin";
 import { formatarHorario, situacaoDaPalestra } from "../../lib/datas";
-import { USANDO_MOCK } from "../../providers/dataProvider";
 import type { PalestraDetalhada, ResultadoCheckin } from "../../types/dominio";
 import { QrScanner } from "./QrScanner";
-import { SimuladorLeitura } from "./SimuladorLeitura";
 import styles from "./CheckinPage.module.css";
 
 /**
@@ -174,7 +172,6 @@ export function CheckinPage() {
             </Link>
           </div>
 
-          {USANDO_MOCK && !palestra.listaEncerrada && <SimuladorLeitura palestraId={palestra.id} onLeitura={aoLer} />}
         </>
       )}
     </div>

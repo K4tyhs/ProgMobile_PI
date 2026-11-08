@@ -6,7 +6,8 @@ Contexto para o Claude Code continuar este projeto. Leia inteiro antes de mexer 
 
 - Projeto Interdisciplinar do 3º semestre de ADS da FECAP (Grupo 1, turma 3NAADS), feito para a ONG
   **Próxima Etapa**, que ajuda jovens de escola pública da periferia de São Paulo a chegar ao ensino superior.
-- A solução tem 3 partes: **app Android** (alunos), **API Node + Express + TypeScript + Prisma** (back, da Katiely)
+- A solução tem 3 partes: **app Android** (alunos), **API Node + Express + TypeScript + Prisma** (back, da Katiely; o painel web
+  não usa a API: fala direto com o Supabase)
   e este **painel web administrativo** (equipe da ONG). Alunos nunca usam o painel.
 - Quem conduz o painel: Laura (UX/UI e Testes e Qualidade). Implementação e rotas `/admin/*` na API: Katiely.
 - Especificação completa: documento "Módulo Web Administrativo — Documento de Implementação"
@@ -31,7 +32,7 @@ Contexto para o Claude Code continuar este projeto. Leia inteiro antes de mexer 
 
 ```bash
 npm install
-npm run dev     # http://localhost:5173 — login de teste: admin@proximaetapa.test / admin123
+npm run dev     # http://localhost:5173 — login: conta Supabase com papel admin
 npm test
 npm run build
 ```
@@ -40,7 +41,7 @@ npm run build
 
 ```
 src/
-  config/resources.ts   as 6 áreas do menu (rota, ícone, descrição, fase do plano)
+  config/resources.ts   as 5 áreas do menu (rota, ícone, descrição)
   types/dominio.ts      CONTRATO dos dados com a API (formato de cada rota /admin/*)
   regras/presenca.ts    regras de faltas, pontos e bloqueio (seção 4.1) — puras e testadas
   regras/certificado.ts quem recebe certificado, um por evento (seção 4.2) — puras e testadas
@@ -49,7 +50,8 @@ src/
   regras/gruposDisc.ts  formação dos grupos DISC (seção 4.3) — pura e testada
   regras/testesPerfil.ts validação do editor de testes DISC/RIASEC (9.9) — pura e testada
   mocks/                dados fictícios + mock das rotas /admin/* (seed, mockDb, servicos, provider)
-  providers/            authProvider (login FAKE), dataProvider (aponta para o mock), sessão
+  lib/supabase.ts       cliente Supabase (só chave publishable) + checagem do .env
+  providers/            authProvider (Supabase Auth + has_role admin), dataProvider → providers/supabase/
   hooks/useAcaoAdmin.ts ações que não são CRUD (check-in, encerrar, justificar) + invalidação
   lib/datas.ts          datas no formato brasileiro, situação da palestra
   components/ui/        Button, Card, Badge, DateTile, DataTable, Tabs, Alert, ConfirmDialog, ProgressBar, BarChart, form/Field…
@@ -68,7 +70,18 @@ src/
 - Acessibilidade: rótulo visível em todo campo, foco visível, `aria-live` em feedback, respeitar reduced-motion.
 - Sem `window.confirm/alert`: usar `ConfirmDialog`.
 
-## Sem API ainda: como o mock funciona
+## Banco: Supabase (dados reais) — o mock só serve aos testes
+
+- O painel fala direto com o Supabase (sem a API Node). `providers/supabase/supabaseDataProvider.ts` implementa os
+  MESMOS recursos/rotas custom do mock, convertendo as tabelas do app (`mapeamento.ts`, testado).
+- Modelo do banco: cada linha de `eventos` é uma edição (palestra.id === eventoId). `tipo=EXTERNO` não é palestra.
+  `requer_testes` = soft skills. QR = `PE:INGRESSO:<inscricoes.id>:<codigo_ingresso>`;
+  o check-in chama a função `validar_ingresso` do banco (janela de horário, origem LEITOR, certificado automático). Pontos/bloqueio são calculados de `faltas`/`bloqueios`.
+- `supabase/painel_admin.sql` (rodar no SQL Editor) acrescenta vagas, lista_encerrada, faltas, bloqueios e RLS de admin.
+  Só ACRESCENTAR no banco: o app Android usa as mesmas tabelas.
+- Sem tabela ainda: dúvidas, grupos DISC, lista de espera, badges (listas vazias; ações respondem 501).
+
+## Mock (só testes)
 
 - `src/mocks/mockDataProvider.ts` imita as rotas `/admin/*` (mapeamento no topo do arquivo). Recursos:
   `alunos`, `mensagens`, `duvidas` (lista e detalhe), `testes` (getOne: DISC | RIASEC), `grupos` (filtro `palestraId`), `eventos`, `palestras`, `inscricoes`, `presencas` e `certificados` (filtro `palestraId`),
@@ -80,9 +93,7 @@ src/
 - `src/mocks/servicos.ts` é a "camada de serviço" do mock e usa os arquivos de `src/regras/`.
 - Os dados ficam salvos no navegador (chave `proxima-etapa:mock-db:v6`). Mudou o formato do banco
   fictício? Suba a `VERSAO` em `mockDb.ts`.
-- Token de QR de teste: `src/mocks/qrToken.ts`. A tela de check-in tem "Simular leitura" enquanto `USANDO_MOCK = true`.
-- Quando a API existir: trocar só `providers/dataProvider.ts` e o corpo de `login` em `providers/authProvider.ts`.
-  `types/dominio.ts` é o contrato que a API deve devolver; vale a Katiely usar como referência.
+- Token de QR de teste (só nos testes do mock): `src/mocks/qrToken.ts`. O QR real do app é `PE:INGRESSO:<inscrição>:<código>`.
 
 ## Regras de negócio fechadas (não mudar sem a Laura)
 
@@ -156,9 +167,10 @@ Abertas e Respondidas; Fechadas entrou para as fechadas não sumirem).
   palestra de soft skills (gerar/regerar, mover pessoa de grupo). A geração automática na véspera é da API (cron).
 - [x] **Fechamento (parte do painel)** — README final; testes de integração pela camada de rotas
   (`src/mocks/integracao.test.ts`: check-in por QR e encerramento de lista); deploy preparado para Vercel
-  (`vercel.json`: rotas SPA + cabeçalhos, `camera=(self)`) e para container (`Dockerfile` + `nginx.conf`).
-- [ ] **Falta:** publicar em HTTPS (precisa da conta/escolha da hospedagem pelo time) e ligar a API real
-  (`providers/dataProvider.ts` e `login` do `authProvider.ts`). A pasta ainda não é um repositório git.
+  (`vercel.json`: rotas SPA + cabeçalhos, `camera=(self)`). Docker/Nginx removidos: o painel é estático + Supabase.
+- [x] **Supabase** — painel ligado direto ao banco do app (login Supabase Auth com papel admin).
+- [ ] **Falta:** publicar em HTTPS; tabelas de dúvidas, grupos DISC, lista de espera e badges; o app passar a
+  respeitar `vagas` e `bloqueios` na inscrição (função `inscrever`).
 
 ## Pendências e avisos
 

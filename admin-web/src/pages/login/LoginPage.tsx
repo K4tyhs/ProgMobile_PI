@@ -85,12 +85,6 @@ export function LoginPage() {
           <Button type="submit" fullWidth disabled={isPending || !email || !senha}>
             {isPending ? "Entrando..." : "Entrar"}
           </Button>
-
-          {import.meta.env.DEV || import.meta.env.VITE_SHOW_TEST_LOGIN === "true" ? (
-            <p className={styles.hint}>
-              Ambiente de teste — e-mail <strong>admin@proximaetapa.test</strong>, senha <strong>admin123</strong>
-            </p>
-          ) : null}
         </form>
       </section>
     </div>

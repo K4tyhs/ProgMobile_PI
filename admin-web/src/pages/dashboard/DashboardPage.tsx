@@ -157,9 +157,9 @@ export function DashboardPage() {
                     <span className={styles.proximaMeta}>
                       {formatarDiaSemana(p.inicio)} · {formatarHorario(p.inicio, p.fim)}
                     </span>
-                    <ProgressBar valor={p.contagem.confirmados} total={p.vagas} rotulo="Vagas ocupadas" tom="roxo" />
+                    {p.vagas !== null && <ProgressBar valor={p.contagem.confirmados} total={p.vagas} rotulo="Vagas ocupadas" tom="roxo" />}
                     <span className={styles.proximaMeta}>
-                      {p.contagem.confirmados} de {p.vagas} vagas
+                      {p.vagas === null ? `${p.contagem.confirmados} inscritos · vagas não definidas` : `${p.contagem.confirmados} de ${p.vagas} vagas`}
                       {p.contagem.espera > 0 ? ` · ${p.contagem.espera} na espera` : ""}
                     </span>
                   </span>

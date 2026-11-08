@@ -30,27 +30,37 @@ export function QrScanner({ ativo, onLeitura }: QrScannerProps) {
     onLeituraRef.current = onLeitura;
   }, [onLeitura]);
 
+  /**
+   * Fila de liga/desliga da câmera. `controles.stop()` do ZXing também limpa o <video>; se um leitor
+   * antigo terminar de desligar DEPOIS que o novo ligou, o novo fica sem imagem e para de ler.
+   * Acontecia ao abrir a tela em modo dev (o React liga, desliga e religa) e ao pausar/reativar rápido.
+   * Com a fila, cada leitor só liga depois que o anterior desligou por completo.
+   */
+  const filaDaCamera = useRef<Promise<void>>(Promise.resolve());
+
   useEffect(() => {
-    if (!ativo || !videoRef.current) return;
+    const video = videoRef.current;
+    if (!ativo || !video) return;
 
     let controles: IScannerControls | null = null;
     let cancelado = false;
     const leitor = new BrowserQRCodeReader(undefined, { delayBetweenScanAttempts: 250 });
 
-    leitor
-      .decodeFromConstraints({ video: { facingMode: "environment" } }, videoRef.current, (resultado) => {
-        if (resultado) onLeituraRef.current(resultado.getText());
-      })
-      .then((c) => {
+    filaDaCamera.current = filaDaCamera.current.then(async () => {
+      if (cancelado) return;
+      try {
+        const c = await leitor.decodeFromConstraints({ video: { facingMode: "environment" } }, video, (resultado) => {
+          if (resultado) onLeituraRef.current(resultado.getText());
+        });
         if (cancelado) c.stop();
         else {
           controles = c;
           setErro(null);
         }
-      })
-      .catch((falha) => {
+      } catch (falha) {
         if (!cancelado) setErro(mensagemDeErro(falha));
-      });
+      }
+    });
 
     return () => {
       cancelado = true;

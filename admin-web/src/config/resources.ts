@@ -10,13 +10,11 @@ import {
 
 /**
  * As 5 áreas do menu lateral (seção 3 do documento de implementação).
- * A ordem aqui é a ordem do menu. `fase` indica em que fase do plano
- * (seção 10) a área ganha funcionalidade de verdade.
+ * A ordem aqui é a ordem do menu.
  */
 export interface MetaRecurso {
   label: string;
   Icone: LucideIcon; // "icon" é reservado pelo Refine (espera ReactNode)
-  fase: number;
   descricao: string;
 }
 
@@ -27,7 +25,6 @@ export const resources: (ResourceProps & { meta: MetaRecurso })[] = [
     meta: {
       label: "Dashboard",
       Icone: ChartColumnBig,
-      fase: 4,
       descricao: "Indicadores de gestão e ranking dos alunos.",
     },
   },
@@ -38,7 +35,6 @@ export const resources: (ResourceProps & { meta: MetaRecurso })[] = [
     meta: {
       label: "Alunos",
       Icone: Users,
-      fase: 4,
       descricao: "Consulta dos alunos inscritos, faltas, bloqueios e certificados.",
     },
   },
@@ -51,7 +47,6 @@ export const resources: (ResourceProps & { meta: MetaRecurso })[] = [
     meta: {
       label: "Palestras",
       Icone: CalendarDays,
-      fase: 1,
       descricao: "Cadastro de palestras, inscritos, presença, grupos DISC e certificados.",
     },
   },
@@ -61,7 +56,6 @@ export const resources: (ResourceProps & { meta: MetaRecurso })[] = [
     meta: {
       label: "Check-in",
       Icone: QrCode,
-      fase: 2,
       descricao: "Leitura do QR Code do convite do aluno pela câmera do celular.",
     },
   },
@@ -71,7 +65,6 @@ export const resources: (ResourceProps & { meta: MetaRecurso })[] = [
     meta: {
       label: "Comunicação",
       Icone: MessageSquare,
-      fase: 5,
       descricao: "Mensagens, notificações e respostas às dúvidas dos alunos.",
     },
   },

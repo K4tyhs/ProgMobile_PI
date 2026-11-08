@@ -36,3 +36,16 @@
 .panel {
   margin-top: var(--space-5);
 }
+
+/* Celular: as abas quebram em mais de uma linha em vez de sumirem para o lado. */
+@media (max-width: 640px) {
+  .list {
+    flex-wrap: wrap;
+    width: 100%;
+    border-radius: var(--radius-card);
+  }
+
+  .tab {
+    flex: 1 1 auto;
+  }
+}

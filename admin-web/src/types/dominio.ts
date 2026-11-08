@@ -25,7 +25,7 @@ export interface Palestra {
   inicio: string; // ISO 8601
   fim: string; // ISO 8601
   sala: string | null;
-  vagas: number;
+  vagas: number | null; // null = limite ainda não definido (eventos antigos do banco)
   listaEncerrada: boolean;
 }
 

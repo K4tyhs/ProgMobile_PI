@@ -55,7 +55,7 @@ function valoresIniciais(palestra?: PalestraDetalhada): FormularioPalestra {
     horaInicio: inicio.hora,
     horaFim: fim.hora,
     sala: palestra.sala ?? "",
-    vagas: String(palestra.vagas),
+    vagas: palestra.vagas === null ? "" : String(palestra.vagas),
   };
 }
 

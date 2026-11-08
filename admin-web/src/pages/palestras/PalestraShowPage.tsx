@@ -38,7 +38,7 @@ export function PalestraShowPage() {
 
   const situacao = situacaoDaPalestra(palestra.inicio, palestra.listaEncerrada);
   const softSkills = palestra.evento.tipo === "SOFT_SKILLS";
-  const lotada = palestra.contagem.confirmados >= palestra.vagas;
+  const lotada = palestra.vagas !== null && palestra.contagem.confirmados >= palestra.vagas;
 
   const abas: Aba[] = [
     { id: "inscritos", label: "Inscritos", content: <InscritosTab key={palestra.id} palestraId={palestra.id} /> },
@@ -93,7 +93,7 @@ export function PalestraShowPage() {
                 <dt>Inscritos</dt>
                 <dd className={lotada ? styles.lotada : undefined}>
                   {palestra.contagem.confirmados}
-                  <span>/ {palestra.vagas}</span>
+                  <span>/ {palestra.vagas ?? "—"}</span>
                 </dd>
               </div>
               <div>

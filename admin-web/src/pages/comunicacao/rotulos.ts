@@ -17,7 +17,9 @@ export function rotuloDaPalestra(palestra: Pick<PalestraDetalhada, "inicio" | "e
 /** "Todos os alunos", "Inscritos de 10/11/2026 · ENEM" ou "Perfil D · Dominância". */
 export function rotuloDoSegmento(mensagem: Pick<Mensagem, "segmento" | "palestraId" | "letraDisc">, palestras: PalestraDetalhada[]): string {
   if (mensagem.segmento === "TODOS") return "Todos os alunos";
-  if (mensagem.segmento === "DISC") return `Perfil ${mensagem.letraDisc} · ${ROTULO_DISC[mensagem.letraDisc!]}`;
+  if (mensagem.segmento === "DISC") {
+    return mensagem.letraDisc ? `Perfil ${mensagem.letraDisc} · ${ROTULO_DISC[mensagem.letraDisc]}` : "Alunos selecionados";
+  }
   const palestra = palestras.find((p) => p.id === mensagem.palestraId);
   return palestra ? `Inscritos de ${rotuloDaPalestra(palestra)}` : "Inscritos de uma palestra";
 }

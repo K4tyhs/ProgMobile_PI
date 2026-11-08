@@ -80,3 +80,15 @@ a {
     transition-duration: 0.01ms !important;
   }
 }
+
+/*
+ * Celular/tablet (toque): campos com letra menor que 16px fazem o Safari do iPhone dar zoom
+ * na página ao tocar no campo. Garante 16px só nas telas de toque; no computador nada muda.
+ */
+@media (pointer: coarse) {
+  input:not([type="radio"]):not([type="checkbox"]),
+  select,
+  textarea {
+    font-size: max(16px, 1em) !important;
+  }
+}

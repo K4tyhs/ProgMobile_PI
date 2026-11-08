@@ -28,7 +28,7 @@ npm install
 npm run dev       # http://localhost:5173
 ```
 
-Usuário de teste: `admin@proximaetapa.test` / `admin123`.
+Login: conta do Supabase Auth com papel `admin` (veja "Banco de dados: Supabase").
 
 Outros comandos:
 
@@ -42,25 +42,34 @@ npm run preview   # serve o dist/ localmente
 A câmera do check-in só funciona em **HTTPS** (ou em `localhost`). Para testar no celular durante o
 desenvolvimento, use um túnel HTTPS (ex.: `npx localtunnel --port 5173`) ou o deploy.
 
-## Sem API por enquanto: o mock
+## Banco de dados: Supabase
 
-Enquanto as rotas `/admin/*` da API não existem, o painel roda sobre um **mock** que imita essas rotas com o mesmo
-formato de dados e as mesmas validações:
+O painel lê e grava **direto no Supabase** (o mesmo banco do app Android), com `@supabase/supabase-js`.
+Não há dados fictícios na tela: o mock em `src/mocks/` só existe para os testes automatizados.
 
-- `src/mocks/mockDataProvider.ts` — mapeamento recurso do Refine → rota da API (comentado no topo do arquivo).
-- `src/mocks/servicos.ts` — a "camada de serviço" do mock, que aplica as regras de `src/regras/`.
-- `src/mocks/seed.ts` — dados **fictícios** (LGPD: nenhum nome ou e-mail real), com datas relativas a hoje.
+1. **Uma vez só**, rode `supabase/painel_admin.sql` no SQL Editor do Supabase. Ele só *acrescenta*:
+   colunas `vagas` e `lista_encerrada` em `eventos`, tabelas `faltas` e `bloqueios`, regras RLS para o papel
+   `admin` e o papel `admin` para a conta do painel. Nada que o app usa é alterado.
+2. No `.env`: `VITE_SUPABASE_URL` (Project URL) e `VITE_SUPABASE_ANON_KEY` (chave **publishable/anon**).
+   Nunca a `service_role`/`secret`: tudo que começa com `VITE_` vai para o navegador.
+3. Entre com uma conta do Supabase Auth que tenha o papel `admin` em `user_roles`. Conta de aluno é recusada.
 
-O que é feito no painel fica salvo no navegador. Para voltar aos dados originais, limpe o armazenamento do site.
+Como as tabelas do app viram o formato das telas (`src/types/dominio.ts`):
 
-### Ligando a API
+| Tela | Tabela(s) |
+|---|---|
+| Palestras | `eventos` (cada linha já é uma edição com data; `tipo = EXTERNO` fica fora; `requer_testes` = soft skills) |
+| Inscritos | `inscricoes` + `alunos` |
+| Check-in / Presença | `presencas` (o QR do convite é o `codigo_ingresso` da inscrição), `faltas`, `bloqueios` |
+| Certificados | `certificados` (liberar = gravar a linha com código de validação; o app gera o PDF) |
+| Alunos / Dashboard / Ranking | `alunos`, `resultados_teste`, `presencas`, `faltas`, `bloqueios` |
+| Comunicação | `notificacoes` ("todos" = 1 linha sem aluno; segmentada = 1 linha por aluno) |
 
-1. Em `src/providers/dataProvider.ts`, troque o mock por um provider que chama `${VITE_API_URL}/admin/...` com o
-   JWT da sessão, seguindo o mapeamento do mock, e mude `USANDO_MOCK` para `false`.
-2. Em `src/providers/authProvider.ts`, troque o corpo de `login` pela chamada a `POST /admin/auth/login`.
-3. `src/types/dominio.ts` é o **contrato**: o formato que cada rota deve devolver.
-4. `src/regras/` tem as regras de negócio puras e testadas (faltas e bloqueio, certificados, ranking, grupos DISC,
-   comunicação, testes de perfil). A API deve seguir as mesmas regras.
+Ainda sem tabela no banco (a tela mostra vazio e avisa ao tentar usar): **dúvidas**, **grupos DISC**,
+**lista de espera** e **badges**.
+
+Código: `src/lib/supabase.ts` (cliente), `src/providers/authProvider.ts` (login),
+`src/providers/supabase/` (provider + conversões testadas em `mapeamento.test.ts`).
 
 ## Testes
 
@@ -72,29 +81,19 @@ O que é feito no painel fica salvo no navegador. Para voltar aos dados originai
 
 ## Deploy
 
-O painel é um site estático (SPA): `npm run build` gera `dist/`. Há duas opções prontas:
+O painel é um site estático (SPA): `npm run build` gera `dist/`, e os dados vêm do Supabase. Não há servidor próprio.
 
-**Vercel** (recomendada) — `vercel.json` já redireciona as rotas para o `index.html` e define cabeçalhos de
+**Vercel** — `vercel.json` já redireciona as rotas para o `index.html` e define cabeçalhos de
 segurança, incluindo `Permissions-Policy: camera=(self)` para o check-in. A Vercel serve em HTTPS automaticamente.
 Configure as variáveis de ambiente do `.env.example` no painel do projeto.
 
-**Container Nginx** — `Dockerfile` (roda os testes, gera o build e serve com `nginx.conf`):
-
-```bash
-docker build --build-arg VITE_API_URL=https://api.exemplo.org -t proxima-etapa-admin .
-docker run -p 8080:80 proxima-etapa-admin
-```
-
-O HTTPS fica no proxy ou balanceador na frente do container.
-
-Variáveis (`.env.example`): `VITE_API_URL` (URL da API), `VITE_ROUTER` (`browser` em produção) e
-`VITE_SHOW_TEST_LOGIN`. Tudo que começa com `VITE_` vai para o navegador: **nunca** coloque segredos ali.
+Variáveis (`.env.example`): `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_ROUTER` (`browser` em produção). Tudo que começa com `VITE_` vai para o navegador: **nunca** coloque segredos ali.
 
 ## Estrutura
 
 ```
 src/
-  config/resources.ts   as 6 áreas do menu
+  config/resources.ts   as 5 áreas do menu
   types/dominio.ts      contrato dos dados com a API
   regras/               regras de negócio puras + testes
   mocks/                dados fictícios e mock das rotas /admin/*

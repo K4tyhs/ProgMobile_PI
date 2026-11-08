@@ -1,18 +1,10 @@
 import type { DataProvider } from "@refinedev/core";
-import { mockDataProvider } from "../mocks/mockDataProvider";
+import { supabaseDataProvider } from "./supabase/supabaseDataProvider";
 
 /**
- * Data provider usado pelo painel.
+ * Data provider usado pelo painel: lê e grava SÓ no banco do Supabase
+ * (src/providers/supabase/supabaseDataProvider.ts).
  *
- * Enquanto as rotas /admin/* não existem, o painel usa o mock
- * (src/mocks/mockDataProvider.ts), que segue o mesmo formato de dados da API
- * descrito em src/types/dominio.ts.
- *
- * Quando a API estiver no ar: criar um provider que chama
- * `${import.meta.env.VITE_API_URL}/admin/...` com o JWT da sessão, respeitando
- * o mapeamento de recursos comentado no topo do mock, e exportá-lo aqui.
+ * O mock (src/mocks/) continua no projeto apenas para os testes automatizados.
  */
-export const dataProvider: DataProvider = mockDataProvider;
-
-/** true enquanto o painel roda com dados fictícios (mostra as ferramentas de teste). */
-export const USANDO_MOCK = true;
+export const dataProvider: DataProvider = supabaseDataProvider;

@@ -3,7 +3,8 @@ import styles from "./DataTable.module.css";
 
 /**
  * Tabela simples e reutilizável do painel.
- * No celular ela rola na horizontal em vez de quebrar o layout.
+ * Em telas estreitas (celular) cada linha vira um cartão: a 1ª coluna é o título e as
+ * demais aparecem como "Rótulo: valor" (o rótulo vem do cabeçalho, via data-label).
  */
 export interface Coluna<T> {
   key: string;
@@ -67,7 +68,7 @@ export function DataTable<T>({
                 onClick={onRowClick ? () => onRowClick(linha) : undefined}
               >
                 {columns.map((coluna) => (
-                  <td key={coluna.key} style={{ textAlign: coluna.align ?? "left" }}>
+                  <td key={coluna.key} data-label={coluna.header} style={{ textAlign: coluna.align ?? "left" }}>
                     {coluna.render(linha)}
                   </td>
                 ))}

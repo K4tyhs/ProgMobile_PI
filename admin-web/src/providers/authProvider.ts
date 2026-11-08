@@ -1,64 +1,66 @@
 import type { AuthProvider } from "@refinedev/core";
-import { apagarSessao, lerSessao, salvarSessao, type SessaoPainel } from "./session";
+import { supabase } from "../lib/supabase";
 
 /**
- * Autenticação FAKE da Fase 0.
+ * Login do painel pelo Supabase Auth.
  *
- * Enquanto a API (POST /admin/auth/login) não existe, o login aceita só o
- * usuário de teste abaixo. Na Fase 0 da API, troque o corpo de `login` por
- * uma chamada ao backend que devolve o JWT — o restante do painel não muda,
- * porque ele só conversa com este provider.
+ * Só entra quem tem o papel 'admin' em public.user_roles (função has_role do banco).
+ * Um aluno com conta no app que tentar entrar aqui é desconectado na hora.
  */
-const USUARIO_TESTE = {
-  email: "admin@proximaetapa.test",
-  senha: "admin123",
-  nome: "Admin Próxima Etapa",
-} as const;
 
 interface CredenciaisLogin {
   email?: string;
   password?: string;
 }
 
+const LOGIN_INVALIDO = { name: "Login inválido", message: "E-mail ou senha incorretos." };
+const SEM_PERMISSAO = { name: "Sem permissão", message: "Esta conta não tem acesso ao painel da equipe." };
+
+async function ehAdmin(userId: string): Promise<boolean> {
+  const { data, error } = await supabase.rpc("has_role", { _user_id: userId, _role: "admin" });
+  return !error && data === true;
+}
+
 export const authProvider: AuthProvider = {
   login: async ({ email, password }: CredenciaisLogin) => {
-    const credenciaisValidas =
-      email?.trim().toLowerCase() === USUARIO_TESTE.email && password === USUARIO_TESTE.senha;
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email?.trim().toLowerCase() ?? "",
+      password: password ?? "",
+    });
+    // Mensagem genérica: não revela se o erro foi no e-mail ou na senha.
+    if (error || !data.user) return { success: false, error: LOGIN_INVALIDO };
 
-    if (!credenciaisValidas) {
-      return {
-        success: false,
-        // Mensagem genérica: não revela se o erro foi no e-mail ou na senha.
-        error: { name: "Login inválido", message: "E-mail ou senha incorretos." },
-      };
+    if (!(await ehAdmin(data.user.id))) {
+      await supabase.auth.signOut();
+      return { success: false, error: SEM_PERMISSAO };
     }
-
-    const sessao: SessaoPainel = {
-      token: "token-de-teste",
-      nome: USUARIO_TESTE.nome,
-      email: USUARIO_TESTE.email,
-      papel: "ADMIN",
-    };
-    salvarSessao(sessao);
-
     return { success: true, redirectTo: "/" };
   },
 
   logout: async () => {
-    apagarSessao();
+    await supabase.auth.signOut();
     return { success: true, redirectTo: "/login" };
   },
 
-  check: async () =>
-    lerSessao() ? { authenticated: true } : { authenticated: false, redirectTo: "/login" },
-
-  getIdentity: async () => {
-    const sessao = lerSessao();
-    return sessao ? { nome: sessao.nome, email: sessao.email, papel: sessao.papel } : null;
+  check: async () => {
+    const { data } = await supabase.auth.getSession();
+    return data.session ? { authenticated: true } : { authenticated: false, redirectTo: "/login" };
   },
 
-  getPermissions: async () => lerSessao()?.papel ?? null,
+  getIdentity: async () => {
+    const { data } = await supabase.auth.getUser();
+    if (!data.user) return null;
+    const nome = (data.user.user_metadata?.full_name as string | undefined) ?? data.user.email ?? "Administrador";
+    return { id: data.user.id, nome, email: data.user.email ?? "", papel: "ADMIN" };
+  },
 
-  onError: async (error: { status?: number }) =>
-    error?.status === 401 ? { logout: true, redirectTo: "/login" } : {},
+  getPermissions: async () => {
+    const { data } = await supabase.auth.getSession();
+    return data.session ? "ADMIN" : null;
+  },
+
+  onError: async (error: { statusCode?: number; status?: number }) => {
+    const status = error?.statusCode ?? error?.status;
+    return status === 401 ? { logout: true, redirectTo: "/login" } : {};
+  },
 };
