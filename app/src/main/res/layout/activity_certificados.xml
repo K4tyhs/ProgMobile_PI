@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Meus certificados (mockup "Baixar Certificados") -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -32,7 +31,6 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         tools:text="KS" />
 
-    <!-- Nome, perfil e total ficam centralizados ao lado da foto (cadeia vertical) -->
     <TextView
         android:id="@+id/txt_nome"
         android:layout_width="0dp"

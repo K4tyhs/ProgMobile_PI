@@ -11,11 +11,6 @@ import androidx.annotation.DrawableRes;
 
 import com.example.proximaetapa.R;
 
-/**
- * Capa dos cards por instituição: usa a foto da fachada do Figma quando
- * existe (ESPM, FECAP, Inteli) e, para as demais, uma capa colorida com o
- * nome da instituição. Todas as cores têm contraste suficiente com texto branco.
- */
 public final class CapaUtils {
 
     private CapaUtils() {
@@ -47,13 +42,11 @@ public final class CapaUtils {
             case "Próxima Etapa":
                 return Color.parseColor("#4A1080");
             default:
-                // Cor estável derivada do nome, sempre escura o bastante
                 float[] hsv = {Math.floorMod(instituicao.hashCode(), 360), 0.65f, 0.45f};
                 return Color.HSVToColor(hsv);
         }
     }
 
-    /** Foto da fachada da instituição (Figma), ou 0 se não houver. */
     @DrawableRes
     public static int fotoDaInstituicao(String instituicao) {
         if (instituicao == null) return 0;
@@ -69,10 +62,6 @@ public final class CapaUtils {
         }
     }
 
-    /**
-     * Capa de card com foto: mostra a fachada da instituição ou, sem foto,
-     * a cor da instituição com o nome escrito por cima.
-     */
     public static void aplicarFoto(ImageView foto, TextView texto, String instituicao) {
         int res = fotoDaInstituicao(instituicao);
         if (res != 0) {
@@ -88,7 +77,6 @@ public final class CapaUtils {
         }
     }
 
-    /** Pinta a capa e escreve o nome da instituição. */
     public static void aplicar(View capa, TextView texto, String instituicao, float raioPx) {
         GradientDrawable fundo = new GradientDrawable();
         fundo.setColor(corDaInstituicao(instituicao));
@@ -100,7 +88,6 @@ public final class CapaUtils {
         }
     }
 
-    /** Cor da barra lateral por categoria (cards de cursos da Home). */
     public static int corDaCategoria(String categoria) {
         if (categoria == null) return Color.parseColor("#F2C744");
         switch (categoria) {

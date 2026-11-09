@@ -20,7 +20,6 @@ public abstract class EventoDao {
     @Query("DELETE FROM eventos")
     public abstract void apagarTodos();
 
-    /** Troca a lista inteira de forma atômica (sincronização). */
     @Transaction
     public void substituirTodos(List<Evento> eventos) {
         apagarTodos();
@@ -36,7 +35,6 @@ public abstract class EventoDao {
     @Query("SELECT * FROM eventos WHERE id = :id")
     public abstract Evento buscar(long id);
 
-    /** Usado na sincronização para detectar mudanças na agenda (RFM13). */
     @Query("SELECT * FROM eventos")
     public abstract List<Evento> listarTodos();
 }

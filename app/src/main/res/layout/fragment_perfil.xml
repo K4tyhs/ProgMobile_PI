@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Aba Perfil (mockup "Perfil"): cabeçalho, cartão digital e indicadores -->
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,7 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- ================= Cabeçalho amarelo ================= -->
         <View
             android:id="@+id/fundo_amarelo"
             android:layout_width="0dp"
@@ -66,7 +64,6 @@
             app:layout_constraintTop_toBottomOf="@id/txt_nome"
             tools:text="linkedin.com/in/ketlinsilva" />
 
-        <!-- Até 3 badges conquistados (o restante aparece em "Ver mais") -->
         <TextView
             android:id="@+id/badge_1"
             android:layout_width="36dp"
@@ -128,7 +125,6 @@
             app:barrierDirection="bottom"
             app:constraint_referenced_ids="txt_avatar,btn_ver_badges" />
 
-        <!-- ================= Cartão digital do aluno (RFM08) ================= -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_digital"
             android:layout_width="0dp"
@@ -239,7 +235,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- ================= Indicadores (análise descritiva) ================= -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_numeros"
             android:layout_width="0dp"
@@ -266,7 +261,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <!-- Três colunas em cadeia horizontal (spread) -->
                 <TextView
                     android:id="@+id/txt_num_cursos"
                     android:layout_width="0dp"
@@ -384,7 +378,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/txt_titulo_rosca" />
 
-                <!-- Legenda do gráfico de rosca: cadeia horizontal centralizada -->
                 <View
                     android:id="@+id/ponto_presencas"
                     android:layout_width="12dp"
@@ -454,7 +447,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- ================= Testes de perfil e interesses ================= -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_testes"
             android:layout_width="0dp"

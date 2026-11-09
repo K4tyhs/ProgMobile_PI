@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import com.example.proximaetapa.data.remote.dto.Dtos;
 
-/** Tradução dos erros do Supabase (Auth e REST) para mensagens ao aluno. */
 public class ErroSupabaseTest {
 
     private static Dtos.ErroResponse auth(String error, String descricao, String msg, String codigo) {

@@ -17,11 +17,6 @@ import androidx.core.content.ContextCompat;
 import com.example.proximaetapa.R;
 import com.example.proximaetapa.ui.main.MainActivity;
 
-/**
- * Notificações do sistema (RFM13): novos cursos, palestras, certificados
- * e avisos de agenda. Usa um canal próprio da Próxima Etapa.
- * (Para push remoto, o mesmo método pode ser chamado pelo Firebase Cloud Messaging.)
- */
 public final class NotificationHelper {
 
     public static final String CANAL_AVISOS = "avisos_proxima_etapa";
@@ -49,8 +44,7 @@ public final class NotificationHelper {
         return true;
     }
 
-    /** Mostra uma notificação; ao tocar, abre a Home do app. */
-    @SuppressLint("MissingPermission") // permissão verificada em podeNotificar()
+    @SuppressLint("MissingPermission")
     public static void mostrar(Context ctx, int id, String titulo, String texto) {
         if (!podeNotificar(ctx)) return;
 
@@ -71,8 +65,7 @@ public final class NotificationHelper {
 
         try {
             NotificationManagerCompat.from(ctx).notify(id, b.build());
-        } catch (SecurityException e) {
-            // Permissão revogada pelo usuário: ignora silenciosamente
+        } catch (SecurityException ignored) {
         }
     }
 }

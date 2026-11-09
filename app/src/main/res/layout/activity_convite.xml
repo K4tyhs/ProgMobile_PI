@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-    Ingresso (mockups "Convite-frente", "Convite-verso" e "QR Code").
-    Frente: convite especial. Ao tocar, o card vira e mostra o QR Code do ingresso
-    "PE:INGRESSO:{id}:{codigoIngresso}". O app NÃO lê QR nem registra presença:
-    o leitor web da Próxima Etapa valida o QR na entrada (validar_ingresso).
--->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -34,7 +28,6 @@
             android:layout_height="wrap_content"
             android:padding="20dp">
 
-            <!-- Frente do convite (cor da instituição aplicada no código) -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_frente"
                 android:layout_width="0dp"
@@ -141,7 +134,6 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Verso: QR Code do ingresso (mesma posição da frente) -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_verso"
                 android:layout_width="0dp"
@@ -214,7 +206,6 @@
                         app:layout_constraintTop_toBottomOf="@id/txt_verso_titulo"
                         tools:text="Encontro: 10/11/2026 · 19:00 às 22:00" />
 
-                    <!-- QR (DISPONIVEL) ou texto de indisponível/sincronizando no mesmo lugar -->
                     <ImageView
                         android:id="@+id/img_qr"
                         android:layout_width="230dp"
@@ -260,7 +251,6 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Aviso fixo sobre a janela de check-in -->
             <TextView
                 android:id="@+id/txt_aviso_ingresso"
                 android:layout_width="0dp"
@@ -275,7 +265,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/card_frente" />
 
-            <!-- Situação do check-in agora (CheckinValidator, só informativo) -->
             <TextView
                 android:id="@+id/txt_janela"
                 android:layout_width="0dp"
@@ -291,7 +280,6 @@
                 app:layout_constraintTop_toBottomOf="@id/txt_aviso_ingresso"
                 tools:text="Check-in aberto agora (até 23:00)." />
 
-            <!-- Presença de hoje confirmada pelo servidor (chega pela sincronização) -->
             <TextView
                 android:id="@+id/txt_status_presenca"
                 android:layout_width="0dp"

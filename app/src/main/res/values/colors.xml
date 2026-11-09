@@ -1,28 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-    Paleta do design system (Figma "Próxima Etapa — Design System"),
-    já com as variações acessíveis propostas na Seção 14.1 da entrega de UX
-    (contraste mínimo 4,5:1 para texto normal - WCAG 2.1 AA).
--->
 <resources>
-    <!-- Roxo / violeta da marca -->
-    <color name="pe_roxo">#6F2FB2</color>          <!-- campos, botões: 7,7:1 com branco -->
-    <color name="pe_roxo_vivo">#7730E2</color>     <!-- cards de agenda: texto branco -->
-    <color name="pe_roxo_escuro">#4A1080</color>   <!-- banner da Home -->
+    <color name="pe_roxo">#6F2FB2</color>
+    <color name="pe_roxo_vivo">#7730E2</color>
+    <color name="pe_roxo_escuro">#4A1080</color>
     <color name="pe_roxo_claro">#EADDFF</color>
     <color name="pe_roxo_hint">#E5D6FA</color>
 
-    <!-- Verde da marca -->
-    <color name="pe_verde">#51C600</color>         <!-- só decorativo / fundos -->
-    <color name="pe_verde_texto">#16803C</color>   <!-- texto/ícone verde: 5,0:1 -->
-    <color name="pe_verde_claro">#D4F0C0</color>   <!-- botões pílula "Inscreva-se" -->
-    <color name="pe_verde_escuro">#1F4D0A</color>  <!-- cartão digital do aluno -->
-    <color name="pe_verde_botao">#C4E5AD</color>   <!-- Figma: botões "Inscreva-se" e selos -->
+    <color name="pe_verde">#51C600</color>
+    <color name="pe_verde_texto">#16803C</color>
+    <color name="pe_verde_claro">#D4F0C0</color>
+    <color name="pe_verde_escuro">#1F4D0A</color>
+    <color name="pe_verde_botao">#C4E5AD</color>
     <color name="pe_verde_botao_texto">#1F4B00</color>
-    <color name="pe_cinza_barra">#E4E4E4</color>   <!-- Figma: barra lateral de card já lido -->
+    <color name="pe_cinza_barra">#E4E4E4</color>
     <color name="pe_borda_card">#D9D9D9</color>
 
-    <!-- Amarelo e coral -->
     <color name="pe_amarelo">#F2C744</color>
     <color name="pe_amarelo_claro">#FBDE89</color>
     <color name="pe_creme">#FFF8E6</color>
@@ -30,11 +22,9 @@
     <color name="pe_coral_texto">#C93C3C</color>
     <color name="pe_coral_claro">#F9D0D0</color>
 
-    <!-- Neutros -->
     <color name="pe_ink">#2C293D</color>
     <color name="white">#FFFFFF</color>
 
-    <!-- Cores que mudam no tema escuro (ver values-night) -->
     <color name="pe_fundo">#FFFFFF</color>
     <color name="pe_superficie">#FFFFFF</color>
     <color name="pe_superficie_alt">#F7F8F5</color>

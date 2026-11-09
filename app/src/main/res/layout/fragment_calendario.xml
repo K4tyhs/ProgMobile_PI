@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Aba Calendário (mockup "calendário"): visão semanal, um dia por linha -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -56,7 +55,6 @@
         app:layout_constraintTop_toTopOf="@id/btn_semana_anterior"
         tools:text="2026" />
 
-    <!-- Legenda das cores (cada cor também tem texto: não depende só da cor) -->
     <View
         android:id="@+id/ponto_inscrito"
         android:layout_width="12dp"

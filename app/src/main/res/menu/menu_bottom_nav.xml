@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-    Barra de navegação inferior (ordem definida no fluxo de páginas):
-    Notificações (Home) - Bolsas - Calendário - Perfil.
-    Os títulos são lidos pelo TalkBack mesmo com os rótulos ocultos.
--->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_home"

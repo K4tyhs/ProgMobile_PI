@@ -24,18 +24,12 @@ import com.example.proximaetapa.domain.ResumoParticipacao;
 import com.example.proximaetapa.util.CapaUtils;
 import com.example.proximaetapa.util.DateUtils;
 
-/**
- * Cards de cursos e palestras da Home (RFM03): capa, descrição, dados
- * numéricos (data, encontros, carga horária) e, para cursos inscritos que
- * já começaram, o percentual de presença.
- */
 public class CursoAdapter extends RecyclerView.Adapter<CursoAdapter.VH> {
 
     public interface Listener {
         void aoAbrir(Evento evento);
     }
 
-    /** Um card: o evento + o que depende do aluno (inscrição e presenças). */
     private static final class Linha {
         final Evento evento;
         final boolean inscrito;
@@ -86,7 +80,6 @@ public class CursoAdapter extends RecyclerView.Adapter<CursoAdapter.VH> {
 
         long agora = System.currentTimeMillis();
         if (l.inscrito && e.dataInicio <= agora) {
-            // Curso em andamento ou concluído: mostra a participação (dado numérico)
             ResumoParticipacao r = ResumoParticipacao.calcular(e.dataInicio, e.dataFim,
                     e.totalEncontros, l.presencas, agora, TimeZone.getDefault());
             h.meta.setText(ctx.getString(R.string.curso_meta_participacao,

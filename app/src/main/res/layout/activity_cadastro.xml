@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Tela de Cadastro (Figma: Mockup > cadastro, nó 97:1187) - usada só no primeiro acesso -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -127,7 +126,6 @@
             app:layout_constraintTop_toTopOf="@id/edt_confirmacao"
             app:tint="@color/white" />
 
-        <!-- O Figma não tem botão; ele existe para o cadastro não depender só da tecla Enter -->
         <Button
             android:id="@+id/btn_cadastrar"
             style="@style/Widget.PE.Button.Principal"

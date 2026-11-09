@@ -4,7 +4,6 @@ import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-/** Certificado emitido pela Próxima Etapa quando o aluno cumpre os critérios. */
 @Entity(tableName = "certificados", indices = {@Index("alunoId")})
 public class Certificado {
 
@@ -17,6 +16,5 @@ public class Certificado {
     public String instituicao;
     public int cargaHoraria;
     public long dataEmissao;
-    /** Código para conferir a autenticidade do certificado. */
     public String codigoValidacao;
 }

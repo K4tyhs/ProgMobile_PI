@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-    Detalhes de palestra/curso (inscrição interna) ou de evento externo/bolsa
-    (botão para o site oficial). Mockups "Detalhes Palestra" e "Detalhes Eventos Externos".
--->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -51,7 +47,6 @@
                     tools:text="ESPM" />
             </FrameLayout>
 
-            <!-- Margens laterais de 20dp para todo o conteúdo -->
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guia_inicio"
                 android:layout_width="wrap_content"
@@ -127,7 +122,6 @@
                 app:layout_constraintTop_toBottomOf="@id/txt_local"
                 tools:text="12/11/2026 · 14:00 às 17:00" />
 
-            <!-- Dados numéricos: carga horária, encontros e participação -->
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chips_meta"
                 android:layout_width="0dp"
@@ -204,7 +198,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Barra fixa de ações (fundo + dois botões) -->
     <View
         android:id="@+id/fundo_acoes"
         android:layout_width="0dp"

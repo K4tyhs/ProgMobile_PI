@@ -34,16 +34,6 @@ import com.example.proximaetapa.util.DateUtils;
 import com.example.proximaetapa.util.QrUtils;
 import com.example.proximaetapa.util.SessionManager;
 
-/**
- * Ingresso do aluno (RFM06). Mostra o QR Code ÚNICO da inscrição
- * "PE:INGRESSO:{id}:{codigoIngresso}", gerado no celular (funciona offline) e
- * válido para todos os dias do curso.
- *
- * O app NÃO lê QR Code nem registra presença: o leitor web da Próxima Etapa
- * valida o ingresso no Supabase (validar_ingresso). Com esta tela aberta, o app
- * sincroniza a cada 30 s para mostrar a "Presença confirmada" logo após o aluno
- * passar no leitor.
- */
 public class ConviteActivity extends BaseActivity {
 
     public static final String EXTRA_INSCRICAO_ID = "inscricao_id";
@@ -64,7 +54,7 @@ public class ConviteActivity extends BaseActivity {
         @Override
         public void run() {
             repo.sincronizar(null);
-            mostrarJanela(); // o horário muda com o tempo, mesmo sem dados novos
+            mostrarJanela();
             handler.postDelayed(this, INTERVALO_SYNC_MS);
         }
     };
@@ -105,7 +95,7 @@ public class ConviteActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        handler.post(sincronizarPeriodico); // sincroniza já ao abrir e depois a cada 30 s
+        handler.post(sincronizarPeriodico);
         aplicarBrilho();
     }
 
@@ -134,7 +124,6 @@ public class ConviteActivity extends BaseActivity {
         ((TextView) findViewById(R.id.txt_verso_titulo)).setText(e.titulo);
         ((TextView) findViewById(R.id.txt_verso_quando)).setText(getString(R.string.ingresso_encontro, quando));
 
-        // Cor da instituição do curso no convite (FECAP, São Camilo, PUC, ESPM...)
         int cor = CapaUtils.corDaInstituicao(e.instituicao);
         cardFrente.setCardBackgroundColor(cor);
         cardVerso.setStrokeColor(ColorStateList.valueOf(cor));
@@ -145,7 +134,7 @@ public class ConviteActivity extends BaseActivity {
         if (qrDisponivel) {
             String conteudo = IngressoQr.conteudo(item.inscricao, e);
             if (!conteudo.equals(qrGerado)) {
-                Bitmap qr = QrUtils.gerar(conteudo, 600); // local, sem rede
+                Bitmap qr = QrUtils.gerar(conteudo, 600);
                 if (qr != null) imgQr.setImageBitmap(qr);
                 qrGerado = conteudo;
             }
@@ -155,7 +144,7 @@ public class ConviteActivity extends BaseActivity {
             txtCodigo.setVisibility(View.VISIBLE);
         } else {
             imgQr.setImageDrawable(null);
-            imgQr.setVisibility(View.INVISIBLE); // mantém o espaço do QR
+            imgQr.setVisibility(View.INVISIBLE);
             qrGerado = null;
             txtQrEstado.setVisibility(View.VISIBLE);
             txtQrEstado.setText(estado == IngressoQr.Estado.SINCRONIZANDO
@@ -168,7 +157,6 @@ public class ConviteActivity extends BaseActivity {
         mostrarPresencas();
     }
 
-    /** Situação do check-in agora (só informativo: quem valida é o leitor web). */
     private void mostrarJanela() {
         if (item == null || item.evento == null) return;
         CheckinValidator.Resultado r = checkin.avaliar(item.evento);
@@ -201,7 +189,7 @@ public class ConviteActivity extends BaseActivity {
         txtParticipacao.setText(getString(R.string.participacao_evento,
                 ParticipacaoCalculator.percentual(qtd, total), qtd, total));
 
-        String hoje = LocalDate.now(CheckinValidator.FUSO).toString(); // yyyy-MM-dd
+        String hoje = LocalDate.now(CheckinValidator.FUSO).toString();
         Presenca deHoje = null;
         if (presencas != null) {
             for (Presenca p : presencas) {
@@ -216,7 +204,6 @@ public class ConviteActivity extends BaseActivity {
         }
     }
 
-    /** Brilho máximo enquanto o QR estiver disponível (facilita a leitura na entrada). */
     private void aplicarBrilho() {
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         float desejado = qrDisponivel
@@ -228,7 +215,6 @@ public class ConviteActivity extends BaseActivity {
         }
     }
 
-    /** Animação de "virar" o convite (frente <-> QR Code). */
     private void virarCartao() {
         View sai = mostrandoVerso ? cardVerso : cardFrente;
         View entra = mostrandoVerso ? cardFrente : cardVerso;
@@ -237,7 +223,7 @@ public class ConviteActivity extends BaseActivity {
         meia.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                sai.setVisibility(View.INVISIBLE); // INVISIBLE mantém o tamanho (o verso usa a frente como referência)
+                sai.setVisibility(View.INVISIBLE);
                 sai.setRotationY(0f);
                 entra.setRotationY(-90f);
                 entra.setVisibility(View.VISIBLE);

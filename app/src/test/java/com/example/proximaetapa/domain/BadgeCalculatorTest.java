@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/** Testes das regras de badges (gamificação). Badge de faculdade só com certificado. */
 public class BadgeCalculatorTest {
 
     private static Badge buscar(List<Badge> lista, String nome) {
@@ -18,7 +17,6 @@ public class BadgeCalculatorTest {
         throw new AssertionError("Badge não encontrado: " + nome);
     }
 
-    /** total = cursos listados pela API; certificados = cursos concluídos. */
     private static List<Badge> badges(String inst, int total, int certificados) {
         Map<String, Integer> t = new HashMap<>();
         t.put(inst, total);
@@ -45,7 +43,6 @@ public class BadgeCalculatorTest {
         List<Badge> l = badges("FECAP", 3, 3);
         assertFalse(buscar(l, "Alvarista").conquistado);
         assertFalse(buscar(l, "FECAP na Trilha").conquistado);
-        // Se a ONG abrir um 8º curso, Alvarista passa a exigir os 8
         assertFalse(buscar(badges("FECAP", 8, 7), "Alvarista").conquistado);
     }
 

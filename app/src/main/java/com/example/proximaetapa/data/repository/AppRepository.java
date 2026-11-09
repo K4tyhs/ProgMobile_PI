@@ -34,18 +34,8 @@ import com.example.proximaetapa.sync.SyncWorker;
 import com.example.proximaetapa.util.SessionManager;
 import retrofit2.Response;
 
-/**
- * Ponto único de acesso aos dados (padrão Repository).
- *  - As telas OBSERVAM o banco local (LiveData do Room): sempre mostram algo,
- *    mesmo offline, e se atualizam sozinhas quando a sincronização grava dados.
- *  - As AÇÕES (inscrever, cancelar, testes...) gravam primeiro no celular e depois
- *    tentam a API; sem internet, ficam na fila do SyncWorker.
- * Todo acesso a banco/rede roda fora da thread principal (ExecutorService)
- * e o resultado volta para a tela pelo Callback, já na thread principal.
- */
 public class AppRepository {
 
-    /** Retorno assíncrono para as telas. */
     public interface Callback<T> {
         void sucesso(T resultado);
 
@@ -53,10 +43,6 @@ public class AppRepository {
     }
 
     private static final long HORAS_72 = 72L * 60 * 60 * 1000;
-    /**
-     * Link aberto pelo e-mail de recuperação (abre a tela Nova senha).
-     * Precisa estar em Authentication > URL Configuration > Redirect URLs no Supabase.
-     */
     public static final String LINK_NOVA_SENHA = "proximaetapa://nova-senha";
     private static volatile AppRepository instancia;
 
@@ -86,10 +72,6 @@ public class AppRepository {
     public long alunoId() {
         return sessao.getAlunoId();
     }
-
-    // =====================================================================
-    // Leitura (LiveData)
-    // =====================================================================
 
     public LiveData<Aluno> aluno() {
         return db.alunoDao().observar(alunoId());
@@ -159,15 +141,6 @@ public class AppRepository {
         return db.mensagemChatDao().observarTodas();
     }
 
-    // =====================================================================
-    // Autenticação (RFM01) - Supabase Auth
-    // =====================================================================
-
-    /**
-     * Login pelo Supabase Auth. Só abre a sessão se o Supabase devolver um
-     * access token válido; qualquer recusa (400/401 credenciais inválidas,
-     * e-mail não confirmado, 429...) vira mensagem na tela.
-     */
     public void login(String email, String senha, Callback<Aluno> cb) {
         io.execute(() -> {
             try {
@@ -184,21 +157,10 @@ public class AppRepository {
         });
     }
 
-    /**
-     * Mensagem usada quando o Supabase exige confirmação de e-mail: o cadastro
-     * foi aceito, mas ainda não há sessão. A tela de cadastro volta ao login.
-     */
     public static final String MSG_CONFIRMAR_EMAIL =
             "Quase lá! Enviamos um link de confirmação para o seu e-mail. "
                     + "Confirme e depois entre com o seu e-mail e senha.";
 
-    /**
-     * Cadastro pelo Supabase Auth (POST auth/v1/signup). Os dados do formulário
-     * vão em user_metadata e o gatilho do banco cria o registro em "alunos".
-     *  - Com confirmação de e-mail desligada: o signup já devolve a sessão.
-     *  - Com confirmação ligada: não há token -> {@link #MSG_CONFIRMAR_EMAIL}.
-     *  - E-mail já cadastrado (user_already_exists / 422): mensagem amigável.
-     */
     public void cadastrar(Dtos.CadastroRequest dados, Callback<Aluno> cb) {
         io.execute(() -> {
             try {
@@ -208,7 +170,6 @@ public class AppRepository {
                     return;
                 }
                 if (r.body().access_token == null) {
-                    // Tenta fazer o login automaticamente para entrar na conta sem exigir confirmação por e-mail
                     try {
                         Response<Dtos.AuthResponse> rLogin = api.login(new Dtos.LoginRequest(dados.email, dados.senha)).execute();
                         if (rLogin.isSuccessful() && rLogin.body() != null && rLogin.body().access_token != null) {
@@ -247,11 +208,6 @@ public class AppRepository {
         });
     }
 
-    /**
-     * Tela Nova senha: usa a sessão temporária que veio no link do e-mail para
-     * gravar a senha nova. Depois encerra essa sessão: o aluno entra de novo
-     * com a senha nova (o app nunca guarda a senha).
-     */
     public void definirNovaSenha(Dtos.AuthResponse sessaoDoLink, String nova, Callback<String> cb) {
         io.execute(() -> {
             SyncWorker.cancelarTudo(ctx);
@@ -264,7 +220,6 @@ public class AppRepository {
                     try {
                         api.logout().execute();
                     } catch (IOException ignorada) {
-                        // a sessão temporária expira sozinha
                     }
                     sessao.limpar();
                     sucesso(cb, "Senha alterada! Entre com a sua nova senha.");
@@ -282,11 +237,6 @@ public class AppRepository {
         });
     }
 
-    /**
-     * Salva os tokens, busca o cadastro do aluno (rpc/meu_perfil) e faz a primeira
-     * sincronização (roda na thread de IO). Só devolve sucesso (e a tela só abre a
-     * Home) se meu_perfil responder 200 com um aluno válido.
-     */
     private void iniciarSessao(Dtos.AuthResponse auth, Callback<Aluno> cb) throws IOException {
         SyncWorker.cancelarTudo(ctx);
         db.clearAllTables();
@@ -308,14 +258,12 @@ public class AppRepository {
         sucesso(cb, aluno);
     }
 
-    /** Logout: encerra a sessão no Supabase e apaga os dados locais (LGPD). */
     public void logout(Runnable aoTerminar) {
         io.execute(() -> {
             if (sessao.getToken() != null) {
                 try {
-                    api.logout().execute(); // revoga o refresh token no servidor
+                    api.logout().execute();
                 } catch (IOException ignorada) {
-                    // sem internet: o token expira sozinho
                 }
             }
             SyncWorker.cancelarTudo(ctx);
@@ -327,11 +275,6 @@ public class AppRepository {
 
     private final AtomicBoolean encerrandoSessao = new AtomicBoolean(false);
 
-    /**
-     * Sessão expirada (401 sem renovação possível): apaga os dados locais e o
-     * token, sem chamar a API (o token já não vale). Ignora chamadas repetidas
-     * enquanto a limpeza estiver em andamento.
-     */
     public void encerrarSessaoExpirada(Runnable aoTerminar) {
         if (!encerrandoSessao.compareAndSet(false, true)) return;
         io.execute(() -> {
@@ -342,10 +285,6 @@ public class AppRepository {
             principal.post(aoTerminar);
         });
     }
-
-    // =====================================================================
-    // Perfil (RFM14)
-    // =====================================================================
 
     public void atualizarPerfil(Aluno aluno, Callback<Aluno> cb) {
         io.execute(() -> {
@@ -372,7 +311,6 @@ public class AppRepository {
                 return;
             }
             try {
-                // Confere a senha atual entrando de novo com ela
                 Response<Dtos.AuthResponse> conf =
                         api.login(new Dtos.LoginRequest(aluno.email, atual)).execute();
                 if (!conf.isSuccessful() || conf.body() == null || conf.body().access_token == null) {
@@ -408,10 +346,6 @@ public class AppRepository {
         });
     }
 
-    // =====================================================================
-    // Inscrições e convites
-    // =====================================================================
-
     public void inscrever(Evento evento, Callback<Inscricao> cb) {
         io.execute(() -> {
             long aluno = alunoId();
@@ -428,7 +362,6 @@ public class AppRepository {
             boolean sincAnterior = existente != null && existente.sincronizado;
             Inscricao i = existente != null ? existente : new Inscricao();
             if (existente == null) {
-                // UUID criado no celular: permite se inscrever offline (o servidor reativa, não duplica)
                 i.id = UUID.randomUUID().toString();
                 i.alunoId = aluno;
                 i.eventoId = evento.id;
@@ -436,7 +369,7 @@ public class AppRepository {
             }
             i.status = Inscricao.ATIVA;
             i.dataInscricao = System.currentTimeMillis();
-            i.sincronizado = false; // sem QR até o servidor confirmar ("Sincronizando ingresso…")
+            i.sincronizado = false;
             db.inscricaoDao().salvar(i);
 
             try {
@@ -445,7 +378,6 @@ public class AppRepository {
                 if (r.isSuccessful()) {
                     db.inscricaoDao().confirmar(i, r.body());
                 } else if (r.code() >= 400 && r.code() < 500 && r.code() != 401) {
-                    // Recusada pelo servidor (regra de negócio, ex.: requerTestes): desfaz no celular
                     if (existente == null) {
                         db.inscricaoDao().apagar(i.id);
                     } else {
@@ -459,7 +391,6 @@ public class AppRepository {
                     SyncWorker.sincronizarQuandoOnline(ctx);
                 }
             } catch (IOException e) {
-                // Offline: a inscrição fica na fila e sobe depois
                 SyncWorker.sincronizarQuandoOnline(ctx);
             }
             Inscricao atual = db.inscricaoDao().buscarPorEvento(aluno, evento.id);
@@ -467,7 +398,6 @@ public class AppRepository {
         });
     }
 
-    /** Regra do mockup: só pode cancelar até 72h antes do evento. */
     public void cancelarInscricao(InscricaoComEvento item, Callback<String> cb) {
         io.execute(() -> {
             long agora = System.currentTimeMillis();
@@ -500,14 +430,6 @@ public class AppRepository {
         return sb.toString();
     }
 
-    // Presença (RFM06/RFM07): o app NÃO registra presença. O ingresso mostra o
-    // QR "PE:INGRESSO:{id}:{codigoIngresso}" e o leitor web chama validar_ingresso.
-    // As presenças confirmadas chegam pela sincronização (rpc/minhas_presencas).
-
-    // =====================================================================
-    // Testes de perfil (RFM10)
-    // =====================================================================
-
     public void salvarResultadoTeste(ResultadoTeste r, Callback<ResultadoTeste> cb) {
         io.execute(() -> {
             r.alunoId = alunoId();
@@ -528,10 +450,6 @@ public class AppRepository {
         io.execute(() -> sucesso(cb, db.resultadoTesteDao().contarTiposConcluidos(alunoId())));
     }
 
-    // =====================================================================
-    // Notificações (RFM11/RFM13)
-    // =====================================================================
-
     public void marcarNotificacaoLida(long id) {
         io.execute(() -> db.notificacaoDao().marcarLida(id));
     }
@@ -539,10 +457,6 @@ public class AppRepository {
     public void definirNotificacaoRemovida(long id, boolean removida) {
         io.execute(() -> db.notificacaoDao().definirRemovida(id, removida));
     }
-
-    // =====================================================================
-    // Chat ProxIA (RFM12)
-    // =====================================================================
 
     public void garantirSaudacao(String primeiroNome) {
         io.execute(() -> {
@@ -554,17 +468,12 @@ public class AppRepository {
         });
     }
 
-    /** A ProxIA responde no próprio celular (funciona até sem internet). */
     public void enviarMensagemChat(String texto) {
         io.execute(() -> {
             db.mensagemChatDao().inserir(MensagemChat.nova(texto, true));
             db.mensagemChatDao().inserir(MensagemChat.nova(ChatbotFaq.responder(texto), false));
         });
     }
-
-    // =====================================================================
-    // Sincronização (RFM15)
-    // =====================================================================
 
     public void sincronizar(Callback<String> cb) {
         io.execute(() -> {
@@ -573,10 +482,6 @@ public class AppRepository {
             else erro(cb, r.erro);
         });
     }
-
-    // =====================================================================
-    // Auxiliares
-    // =====================================================================
 
     private <T> void sucesso(Callback<T> cb, T valor) {
         if (cb != null) principal.post(() -> cb.sucesso(valor));

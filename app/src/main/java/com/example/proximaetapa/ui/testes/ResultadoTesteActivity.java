@@ -28,10 +28,6 @@ import com.example.proximaetapa.domain.teste.TesteDefinicao;
 import com.example.proximaetapa.ui.BaseActivity;
 import com.example.proximaetapa.ui.widget.BarraPercentual;
 
-/**
- * Resultado do teste de perfil: classificação, descrição, pontuação por
- * dimensão e sugestões de cursos. Linguagem de ORIENTAÇÃO, não de diagnóstico.
- */
 public class ResultadoTesteActivity extends BaseActivity {
 
     public static final String EXTRA_RESULTADO_ID = "resultado_id";
@@ -59,7 +55,6 @@ public class ResultadoTesteActivity extends BaseActivity {
                 "DISC".equals(r.tipo) ? R.string.resultado_disc : R.string.resultado_riasec);
         ((TextView) findViewById(R.id.txt_perfil)).setText(r.perfil);
 
-        // Descrição e sugestões das dimensões principais (ex.: "SA" = Social + Artístico)
         StringBuilder descricoes = new StringBuilder();
         ChipGroup chips = findViewById(R.id.chips_sugestoes);
         chips.removeAllViews();
@@ -77,7 +72,6 @@ public class ResultadoTesteActivity extends BaseActivity {
         }
         ((TextView) findViewById(R.id.txt_descricoes)).setText(descricoes.toString());
 
-        // Pontuação por dimensão (JSON salvo no Room -> Map)
         Type tipo = new TypeToken<LinkedHashMap<String, Integer>>() {
         }.getType();
         Map<String, Integer> pontos = new Gson().fromJson(r.pontuacoesJson, tipo);
@@ -94,7 +88,6 @@ public class ResultadoTesteActivity extends BaseActivity {
         pontuacaoAdapter.setLinhas(linhas);
     }
 
-    /** Uma linha por dimensão: nome (pontos) + barra proporcional ao maior valor. */
     private static class PontuacaoAdapter extends RecyclerView.Adapter<PontuacaoAdapter.VH> {
 
         private final List<String[]> linhas = new ArrayList<>();

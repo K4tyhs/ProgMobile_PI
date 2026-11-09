@@ -24,10 +24,6 @@ public abstract class InscricaoDao {
     @Query("DELETE FROM inscricoes WHERE alunoId = :alunoId AND sincronizado = 1")
     public abstract void apagarSincronizadas(long alunoId);
 
-    /**
-     * Sincronização: substitui as inscrições pelas do servidor, mas mantém as
-     * que foram criadas/canceladas offline e ainda não subiram.
-     */
     @Transaction
     public void substituirSincronizadas(long alunoId, List<Inscricao> doServidor) {
         apagarSincronizadas(alunoId);
@@ -66,11 +62,6 @@ public abstract class InscricaoDao {
     @Query("DELETE FROM inscricoes WHERE id = :id")
     public abstract void apagar(String id);
 
-    /**
-     * rpc/inscrever confirmou: guarda a versão do servidor (id e codigoIngresso
-     * oficiais, que o leitor web vai procurar) e tira da fila. Só a partir daqui
-     * o ingresso ganha QR Code.
-     */
     @Transaction
     public void confirmar(Inscricao local, Inscricao doServidor) {
         if (doServidor == null || doServidor.id == null || doServidor.id.isEmpty()) {

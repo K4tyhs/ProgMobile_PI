@@ -21,10 +21,6 @@ import com.example.proximaetapa.util.DateUtils;
 import com.example.proximaetapa.util.Preferencias;
 import com.example.proximaetapa.util.SessionManager;
 
-/**
- * Configurações: aparência, notificações, sincronização, segurança
- * (alterar senha, apagar conta - direito do titular na LGPD).
- */
 public class ConfiguracoesActivity extends BaseActivity {
 
     private AppRepository repo;

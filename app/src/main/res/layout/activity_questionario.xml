@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Perguntas do teste de perfil, uma por vez -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -15,8 +14,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- Barra de progresso feita com ConstraintLayout: trilho + preenchimento em % -->
 
     <View
         android:id="@+id/progresso_trilho"
@@ -85,7 +82,6 @@
         app:layout_constraintTop_toBottomOf="@id/txt_instrucao"
         tools:text="Em um trabalho em grupo, você costuma..." />
 
-    <!-- Alternativas (escolha única) -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_opcoes"
         android:layout_width="0dp"
@@ -104,7 +100,6 @@
         tools:itemCount="4"
         tools:listitem="@layout/item_opcao" />
 
-    <!-- Botões lado a lado (cadeia horizontal com pesos iguais) -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_anterior"
         style="@style/Widget.Material3.Button.OutlinedButton"

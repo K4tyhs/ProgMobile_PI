@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Tema escuro (ativado em Configurações > Aparência) -->
 <resources>
     <color name="pe_fundo">#16141F</color>
     <color name="pe_superficie">#221F2E</color>

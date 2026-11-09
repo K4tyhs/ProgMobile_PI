@@ -16,10 +16,6 @@ import com.example.proximaetapa.ui.BaseActivity;
 import com.example.proximaetapa.ui.adapter.MensagemAdapter;
 import com.example.proximaetapa.util.SessionManager;
 
-/**
- * Canal de dúvidas com a ProxIA (RFM12). As mensagens ficam salvas no Room
- * e as respostas vêm da API (POST /chat).
- */
 public class ChatActivity extends BaseActivity {
 
     private AppRepository repo;
@@ -33,7 +29,6 @@ public class ChatActivity extends BaseActivity {
         repo = AppRepository.get(this);
 
         RecyclerView rv = findViewById(R.id.rv_mensagens);
-        // Lista em 1 coluna; a última mensagem fica sempre visível (scroll ao atualizar)
         rv.setLayoutManager(new GridLayoutManager(this, 1));
         MensagemAdapter adapter = new MensagemAdapter();
         rv.setAdapter(adapter);
@@ -56,7 +51,6 @@ public class ChatActivity extends BaseActivity {
             return false;
         });
 
-        // Perguntas frequentes em um toque
         ChipGroup sugestoes = findViewById(R.id.chips_sugestoes);
         for (String pergunta : getResources().getStringArray(R.array.chat_sugestoes)) {
             Chip c = new Chip(this);

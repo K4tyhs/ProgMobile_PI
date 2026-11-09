@@ -9,7 +9,6 @@ import org.junit.Test;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-/** Testes do dado numérico de participação e da regra do certificado (75%). */
 public class ParticipacaoCalculatorTest {
 
     private static final TimeZone SP = TimeZone.getTimeZone("America/Sao_Paulo");

@@ -15,10 +15,6 @@ import java.util.List;
 
 import com.example.proximaetapa.R;
 
-/**
- * Gráfico de barras simples (análise descritiva no perfil: horas por instituição).
- * Desenhado à mão com Canvas para não depender de bibliotecas externas.
- */
 public class BarChartView extends View {
 
     private final List<String> rotulos = new ArrayList<>();
@@ -47,7 +43,6 @@ public class BarChartView extends View {
         this.rotulos.addAll(rotulos);
         this.valores.clear();
         this.valores.addAll(valores);
-        // Descrição para leitor de tela (acessibilidade)
         StringBuilder sb = new StringBuilder("Gráfico de horas certificadas por instituição: ");
         for (int i = 0; i < rotulos.size(); i++) {
             sb.append(rotulos.get(i)).append(' ').append(Math.round(valores.get(i))).append(" horas; ");

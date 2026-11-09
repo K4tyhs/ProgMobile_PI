@@ -3,11 +3,6 @@ package com.example.proximaetapa.data.local.entity;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-/**
- * Aluno autenticado. A mesma classe é usada pelo Room (tabela "alunos") e pelo
- * Gson (JSON da API), por isso os nomes dos campos seguem o contrato da API.
- * LGPD: guardamos só o necessário e somente do aluno logado.
- */
 @Entity(tableName = "alunos")
 public class Aluno {
 
@@ -19,11 +14,9 @@ public class Aluno {
     public String matricula;
     public String telefone;
     public String linkedin;
-    // Dados demográficos: ficam no perfil, mas NÃO aparecem no cartão do aluno
     public String endereco;
     public String cidade;
     public String escola;
-    /** Tags de interesse separadas por vírgula (ex.: "Tecnologia,Bolsas"). */
     public String interesses;
 
     public boolean perfilCompleto() {

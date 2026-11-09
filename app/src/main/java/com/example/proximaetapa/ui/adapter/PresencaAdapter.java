@@ -20,7 +20,6 @@ import com.example.proximaetapa.data.local.entity.Evento;
 import com.example.proximaetapa.data.local.entity.Presenca;
 import com.example.proximaetapa.util.DateUtils;
 
-/** Histórico de presença (RFM07): presenças confirmadas pelo leitor web da Próxima Etapa. */
 public class PresencaAdapter extends RecyclerView.Adapter<PresencaAdapter.VH> {
 
     private final List<Presenca> itens = new ArrayList<>();
@@ -32,7 +31,6 @@ public class PresencaAdapter extends RecyclerView.Adapter<PresencaAdapter.VH> {
         if (listaEventos != null) for (Evento e : listaEventos) eventos.put(e.id, e);
         Diff.aplicar(this, itens, presencas, p -> p.id,
                 p -> Diff.assinatura(p.dataEncontro, p.registradoEm, p.origem));
-        // Os títulos vêm dos eventos: se eles chegaram depois, redesenha os nomes
         if (eventosMudaram) notifyItemRangeChanged(0, itens.size());
     }
 

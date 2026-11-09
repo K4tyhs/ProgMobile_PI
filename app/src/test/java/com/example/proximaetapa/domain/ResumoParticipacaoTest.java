@@ -9,7 +9,6 @@ import org.junit.Test;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-/** Testes do resumo de presenças, faltas e encontros futuros (RFM07). */
 public class ResumoParticipacaoTest {
 
     private static final TimeZone SP = TimeZone.getTimeZone("America/Sao_Paulo");
@@ -23,11 +22,10 @@ public class ResumoParticipacaoTest {
 
     @Test
     public void contaFaltaSomenteDeEncontrosQueJaPassaram() {
-        // Curso de 4 encontros (dias 10 a 13); hoje é dia 12, aluno foi 1 vez
         ResumoParticipacao r = ResumoParticipacao.calcular(data(10, 14), data(13, 17), 4, 1, data(12, 15), SP);
         assertEquals(1, r.presencas);
-        assertEquals(1, r.faltas);   // dia 11 sem presença (o dia 12 ainda não conta)
-        assertEquals(2, r.futuros);  // dias 12 e 13
+        assertEquals(1, r.faltas);
+        assertEquals(2, r.futuros);
         assertEquals(50, r.percentual);
         assertFalse(r.elegivelCertificado);
         assertEquals(2, r.faltamParaCertificado);

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Tela de Login (Figma: Mockup > login, nó 97:1236) -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -51,7 +50,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txt_titulo" />
 
-        <!-- Senha (com botão de mostrar/ocultar dentro do campo) -->
         <EditText
             android:id="@+id/edt_senha"
             style="@style/Widget.PE.Campo"
@@ -76,7 +74,6 @@
             app:layout_constraintTop_toTopOf="@id/edt_senha"
             app:tint="@color/white" />
 
-        <!-- O Figma não tem botão; ele existe para o login não depender só da tecla Enter -->
         <Button
             android:id="@+id/btn_entrar"
             style="@style/Widget.PE.Button.Principal"

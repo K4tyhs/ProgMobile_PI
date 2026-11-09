@@ -15,7 +15,6 @@ import com.example.proximaetapa.R;
 import com.example.proximaetapa.data.local.entity.Bolsa;
 import com.example.proximaetapa.util.CapaUtils;
 
-/** Carrossel horizontal de bolsas. */
 public class BolsaAdapter extends RecyclerView.Adapter<BolsaAdapter.VH> {
 
     public interface Listener {

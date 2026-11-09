@@ -3,7 +3,6 @@ package com.example.proximaetapa.data.local.entity;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-/** Mensagem do canal de dúvidas com a ProxIA (RFM12). */
 @Entity(tableName = "mensagens_chat")
 public class MensagemChat {
 

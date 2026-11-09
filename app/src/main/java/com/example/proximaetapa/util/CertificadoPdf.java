@@ -23,14 +23,9 @@ import java.io.OutputStream;
 
 import com.example.proximaetapa.data.local.entity.Certificado;
 
-/**
- * Gera o PDF do certificado (RFM09 - visualização e download).
- * Enquanto a API não devolve o PDF oficial, o app monta um certificado
- * com os dados registrados no banco (aluno, curso, carga horária e código).
- */
 public final class CertificadoPdf {
 
-    private static final int LARGURA = 842;  // A4 paisagem em pontos
+    private static final int LARGURA = 842;
     private static final int ALTURA = 595;
 
     private CertificadoPdf() {
@@ -87,7 +82,6 @@ public final class CertificadoPdf {
         return "certificado_" + c.id + "_" + c.titulo.replaceAll("[^A-Za-z0-9]+", "_") + ".pdf";
     }
 
-    /** Gera o PDF na pasta do app e devolve um Uri para visualizar/compartilhar. */
     public static Uri gerarParaVisualizar(Context ctx, Certificado c, String nomeAluno) throws IOException {
         File pasta = ctx.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
         if (pasta == null) pasta = ctx.getCacheDir();
@@ -101,10 +95,6 @@ public final class CertificadoPdf {
         return FileProvider.getUriForFile(ctx, ctx.getPackageName() + ".fileprovider", arquivo);
     }
 
-    /**
-     * Salva o PDF na pasta Downloads do celular.
-     * Android 10+: MediaStore (não precisa de permissão). Antes disso: pasta do app.
-     */
     public static Uri baixar(Context ctx, Certificado c, String nomeAluno) throws IOException {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
             return gerarParaVisualizar(ctx, c, nomeAluno);

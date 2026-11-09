@@ -9,10 +9,6 @@ import com.google.android.material.appbar.MaterialToolbar;
 
 import com.example.proximaetapa.R;
 
-/**
- * Base das telas secundárias (só abertas com o aluno logado): configura a barra
- * superior com "voltar" e volta ao login se a sessão expirar (401).
- */
 public abstract class BaseActivity extends AppCompatActivity {
 
     @Override

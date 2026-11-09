@@ -5,7 +5,6 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 
-/** Verifica se há internet (tratamento de perda de conexão - RFM15). */
 public final class NetworkUtils {
 
     private NetworkUtils() {

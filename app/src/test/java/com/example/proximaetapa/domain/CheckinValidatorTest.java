@@ -14,11 +14,6 @@ import java.time.ZoneId;
 import com.example.proximaetapa.data.local.entity.Evento;
 import com.example.proximaetapa.domain.CheckinValidator.Situacao;
 
-/**
- * CheckinValidator informativo (RFM06): só diz a situação da janela de check-in
- * para exibir no ingresso. Quem valida de verdade é o servidor (validar_ingresso).
- * Janela do dia D (America/Sao_Paulo): [início − 1h, fim + 1h].
- */
 public class CheckinValidatorTest {
 
     private static final ZoneId SP = ZoneId.of("America/Sao_Paulo");
@@ -40,9 +35,7 @@ public class CheckinValidatorTest {
         return e;
     }
 
-    /** Palestra de um dia: 10/11, das 19h às 22h. */
     private static final Evento PALESTRA = evento(Evento.TIPO_PALESTRA, ms(10, 19, 0), ms(10, 22, 0));
-    /** Curso de 2 dias: 10 e 11/11, das 19h às 22h. */
     private static final Evento CURSO_2_DIAS = evento(Evento.TIPO_CURSO, ms(10, 19, 0), ms(11, 22, 0));
 
     private static CheckinValidator.Resultado avaliar(Evento e, int dia, int hora, int min) {
@@ -58,7 +51,7 @@ public class CheckinValidatorTest {
     public void umaHoraEMeiaAntesAindaNaoAbriuEInformaOHorario() {
         CheckinValidator.Resultado r = avaliar(PALESTRA, 10, 17, 30);
         assertEquals(Situacao.ANTES_DO_HORARIO, r.situacao);
-        assertEquals(LocalTime.of(18, 0), r.abreAs()); // abre às 18:00
+        assertEquals(LocalTime.of(18, 0), r.abreAs());
     }
 
     @Test
@@ -82,7 +75,6 @@ public class CheckinValidatorTest {
     @Test
     public void cursoDeDoisDiasSegundoDiaNoHorario() {
         assertEquals(Situacao.NO_HORARIO, avaliar(CURSO_2_DIAS, 11, 19, 30).situacao);
-        // No 2º dia, de madrugada, ainda não abriu (hoje é dia de encontro)
         assertEquals(Situacao.ANTES_DO_HORARIO, avaliar(CURSO_2_DIAS, 11, 3, 0).situacao);
     }
 
@@ -91,13 +83,11 @@ public class CheckinValidatorTest {
         CheckinValidator.Resultado r = avaliar(CURSO_2_DIAS, 12, 19, 30);
         assertEquals(Situacao.FORA_DO_PERIODO, r.situacao);
         assertNull(r.janela);
-        // Antes do primeiro dia também
         assertEquals(Situacao.FORA_DO_PERIODO, avaliar(CURSO_2_DIAS, 9, 19, 30).situacao);
     }
 
     @Test
     public void encontroQuePassaDaMeiaNoiteFechaNoDiaSeguinte() {
-        // 10/11 22h até 11/11 01h (fim <= início: termina no dia seguinte)
         Evento noturno = evento(Evento.TIPO_PALESTRA, ms(10, 22, 0), ms(11, 1, 0));
         assertEquals(Situacao.NO_HORARIO, avaliar(noturno, 11, 1, 45).situacao);
         assertEquals(Situacao.FORA_DO_PERIODO, avaliar(noturno, 11, 22, 30).situacao);

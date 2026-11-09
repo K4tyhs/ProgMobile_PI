@@ -28,10 +28,6 @@ import com.example.proximaetapa.ui.adapter.DiaAgendaAdapter;
 import com.example.proximaetapa.ui.evento.EventoDetalheActivity;
 import com.example.proximaetapa.util.DateUtils;
 
-/**
- * Agenda individual (RFM05): visão semanal com as palestras/cursos em que o
- * aluno se inscreveu (roxo) e os eventos externos que estão por vir (verde).
- */
 public class CalendarioFragment extends Fragment {
 
     private static final String ESTADO_SEMANA = "semana";
@@ -95,7 +91,6 @@ public class CalendarioFragment extends Fragment {
         montarSemana();
     }
 
-    /** Distribui os eventos nos 7 dias da semana exibida. */
     private void montarSemana() {
         txtSemana.setText(DateUtils.rotuloSemana(inicioSemana));
         btnHoje.setText(String.valueOf(inicioSemana.get(Calendar.YEAR)));

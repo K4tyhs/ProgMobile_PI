@@ -41,11 +41,6 @@ import com.example.proximaetapa.util.NetworkUtils;
 import com.example.proximaetapa.util.Preferencias;
 import com.example.proximaetapa.util.SessionManager;
 
-/**
- * Tela principal. Hospeda os 4 Fragments da barra inferior
- * (Notificações/Home, Bolsas, Calendário e Perfil), o menu hambúrguer
- * e o botão da ProxIA, presente em todas as abas.
- */
 public class MainActivity extends AppCompatActivity {
 
     public static final String EXTRA_ABA = "aba";
@@ -57,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
 
     private final ActivityResultLauncher<String> pedirPermissaoNotificacao =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), concedida -> {
-                // Se negar, o app continua funcionando; os avisos ficam só na Home
             });
 
     @Override
@@ -87,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
         });
         navView.setNavigationItemSelectedListener(this::aoEscolherMenu);
 
-        // Cabeçalho do menu e saudação com os dados do aluno (LiveData do Room)
         View header = navView.getHeaderView(0);
         TextView txtSaudacao = findViewById(R.id.txt_saudacao);
         AppRepository.get(this).aluno().observe(this, aluno -> {
@@ -116,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // 401 sem renovação possível: apaga os dados locais e volta ao login (RFM15)
         SessaoGuard.observar(this);
 
         mostrarBalaoProxia();
@@ -125,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
         sincronizar(false);
     }
 
-    /** Troca o Fragment exibido (navegação da barra inferior). */
     private void mostrarFragment(int itemId) {
         Fragment f;
         if (itemId == R.id.nav_bolsas) {
@@ -143,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    /** Permite que um Fragment peça para trocar de aba (ex.: card "Está chegando" -> Calendário). */
     public void irParaAba(int itemId) {
         bottomNav.setSelectedItemId(itemId);
     }
@@ -169,7 +159,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    /** Logout é um pop-up de confirmação (fluxo de páginas). */
     private void confirmarLogout() {
         new MaterialAlertDialogBuilder(this)
                 .setTitle(R.string.sair_titulo)
@@ -215,8 +204,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // ---------- Monitoramento da conexão (aviso "você está offline") ----------
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -234,7 +221,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onLost(@NonNull Network network) {
-                // Pequeno atraso: dá tempo de o Android trocar Wi-Fi <-> dados móveis
                 txtOffline.postDelayed(MainActivity.this::atualizarAvisoOffline, 800);
             }
         };
@@ -249,7 +235,6 @@ public class MainActivity extends AppCompatActivity {
             try {
                 cm.unregisterNetworkCallback(callbackRede);
             } catch (IllegalArgumentException ignored) {
-                // callback já removido
             }
         }
         callbackRede = null;

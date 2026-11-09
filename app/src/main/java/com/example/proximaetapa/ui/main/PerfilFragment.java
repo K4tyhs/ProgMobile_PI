@@ -46,10 +46,6 @@ import com.example.proximaetapa.ui.widget.DonutChartView;
 import com.example.proximaetapa.util.DateUtils;
 import com.example.proximaetapa.util.QrUtils;
 
-/**
- * Perfil do aluno (RFM08/RFM14): dados autorizados, cartão digital com QR Code,
- * badges e indicadores da jornada (análise descritiva dos próprios dados).
- */
 public class PerfilFragment extends Fragment {
 
     private Aluno aluno;
@@ -112,14 +108,12 @@ public class PerfilFragment extends Fragment {
     private void atualizar() {
         if (aluno == null || raiz == null) return;
 
-        // ---------- Cabeçalho ----------
         texto(R.id.txt_avatar, aluno.iniciais());
         texto(R.id.txt_nome, aluno.nome);
         TextView linkedin = raiz.findViewById(R.id.txt_linkedin);
         boolean temLinkedin = aluno.linkedin != null && !aluno.linkedin.trim().isEmpty();
         linkedin.setText(temLinkedin ? aluno.linkedin : getString(R.string.perfil_sem_linkedin));
 
-        // ---------- Badges ----------
         BadgeCalculator.Entrada entrada = new BadgeCalculator.Entrada();
         Map<String, Integer> totalPorInst = new HashMap<>();
         for (Evento e : eventos) {
@@ -135,7 +129,6 @@ public class PerfilFragment extends Fragment {
         badges = BadgeCalculator.calcular(entrada);
         desenharBadges();
 
-        // ---------- Cartão digital ----------
         texto(R.id.txt_card_nome, aluno.nome);
         texto(R.id.txt_card_matricula, getString(R.string.cartao_matricula, aluno.matricula));
         texto(R.id.txt_card_nivel, BadgeCalculator.nivelJornada(badges));
@@ -145,13 +138,11 @@ public class PerfilFragment extends Fragment {
             qrGerado = conteudoQrAluno();
         }
 
-        // ---------- Indicadores ----------
         int horas = 0;
         for (Certificado c : certificados) horas += c.cargaHoraria;
         texto(R.id.txt_num_cursos, String.valueOf(certificados.size()));
         texto(R.id.txt_num_horas, horas + "h");
         texto(R.id.txt_num_badges, String.valueOf(BadgeCalculator.contarConquistados(badges)));
-        // Leitor de tela lê número + rótulo juntos (os rótulos visuais ficam ocultos para ele)
         raiz.findViewById(R.id.txt_num_cursos).setContentDescription(certificados.size() + " cursos concluídos");
         raiz.findViewById(R.id.txt_num_horas).setContentDescription(horas + " horas certificadas");
         raiz.findViewById(R.id.txt_num_badges).setContentDescription(
@@ -160,10 +151,8 @@ public class PerfilFragment extends Fragment {
         atualizarGraficoHoras();
         atualizarGraficoPresenca();
 
-        // ---------- Testes ----------
         texto(R.id.txt_resultado_testes, resumoTestes());
 
-        // ---------- Interesses ----------
         ChipGroup chips = raiz.findViewById(R.id.chips_interesses);
         chips.removeAllViews();
         if (aluno.interesses != null && !aluno.interesses.trim().isEmpty()) {
@@ -181,7 +170,6 @@ public class PerfilFragment extends Fragment {
         }
     }
 
-    /** Barras: horas certificadas por instituição (as 5 maiores). */
     private void atualizarGraficoHoras() {
         Map<String, Integer> horasPorInst = new HashMap<>();
         for (Certificado c : certificados) {
@@ -199,7 +187,6 @@ public class PerfilFragment extends Fragment {
         ((BarChartView) raiz.findViewById(R.id.grafico_barras)).setDados(rotulos, valores);
     }
 
-    /** Rosca: presenças x faltas x encontros futuros nos eventos inscritos. */
     private void atualizarGraficoPresenca() {
         long agora = System.currentTimeMillis();
         Map<Long, Integer> presPorEvento = new HashMap<>();
@@ -208,7 +195,6 @@ public class PerfilFragment extends Fragment {
         Set<Long> idsInscritos = new HashSet<>();
         for (Inscricao i : inscricoes) idsInscritos.add(i.eventoId);
 
-        // Mesma regra da tela "Meus ingressos" (classe de domínio testada com JUnit)
         int totalPres = 0, totalFaltas = 0, totalFuturos = 0;
         for (Evento e : eventos) {
             if (!idsInscritos.contains(e.id) || e.isExterno()) continue;
@@ -225,7 +211,6 @@ public class PerfilFragment extends Fragment {
         texto(R.id.txt_leg_futuros, getResources().getQuantityString(R.plurals.futuros, totalFuturos, totalFuturos));
     }
 
-    /** Mostra até 3 badges conquistados nos círculos fixos do cabeçalho (badge_1..3). */
     private void desenharBadges() {
         TextView[] vagas = {
                 raiz.findViewById(R.id.badge_1),
@@ -233,7 +218,6 @@ public class PerfilFragment extends Fragment {
                 raiz.findViewById(R.id.badge_3)
         };
         int usados = 0;
-        // Os mais "altos" ficam no fim da lista: percorre de trás para frente
         for (int i = badges.size() - 1; i >= 0 && usados < vagas.length; i--) {
             Badge b = badges.get(i);
             if (!b.conquistado) continue;
@@ -284,10 +268,8 @@ public class PerfilFragment extends Fragment {
         String url = aluno.linkedin.trim();
         if (!url.startsWith("http")) url = "https://" + url;
         try {
-            // Intent implícita: abre o navegador/app do LinkedIn
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
         } catch (ActivityNotFoundException ignored) {
-            // Nenhum navegador instalado
         }
     }
 
@@ -303,7 +285,7 @@ public class PerfilFragment extends Fragment {
 
     private String resumoTestes() {
         ResultadoTeste disc = null, riasec = null;
-        for (ResultadoTeste r : resultados) {  // lista vem ordenada do mais recente
+        for (ResultadoTeste r : resultados) {
             if ("DISC".equals(r.tipo) && disc == null) disc = r;
             if ("RIASEC".equals(r.tipo) && riasec == null) riasec = r;
         }

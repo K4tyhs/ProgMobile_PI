@@ -31,12 +31,6 @@ import com.example.proximaetapa.domain.teste.TesteScorer;
 import com.example.proximaetapa.ui.BaseActivity;
 import com.example.proximaetapa.ui.widget.BarraPercentual;
 
-/**
- * Responde um teste de perfil (RFM10), uma pergunta por vez.
- * As alternativas ficam em uma RecyclerView de escolha única.
- * Ao final calcula a classificação (TesteScorer), salva no Room,
- * envia para a API e abre a tela de resultado.
- */
 public class QuestionarioActivity extends BaseActivity {
 
     public static final String EXTRA_TESTE_ID = "teste_id";
@@ -125,7 +119,6 @@ public class QuestionarioActivity extends BaseActivity {
 
     private void concluir() {
         Map<String, Integer> pontos = TesteScorer.pontuar(teste, respostas);
-        // DISC: 1 dimensão principal. RIASEC: código com as 2 maiores (ex.: "SA").
         int qtd = "RIASEC".equals(teste.id) ? 2 : 1;
         List<String> principais = TesteScorer.principais(pontos, qtd);
 
@@ -164,7 +157,6 @@ public class QuestionarioActivity extends BaseActivity {
         });
     }
 
-    /** Alternativas da pergunta atual: escolha única, o card inteiro é clicável. */
     private class OpcaoAdapter extends RecyclerView.Adapter<OpcaoAdapter.VH> {
 
         private List<TesteDefinicao.Alternativa> alternativas;
@@ -190,7 +182,6 @@ public class QuestionarioActivity extends BaseActivity {
             h.card.setStrokeColor(ContextCompat.getColor(h.itemView.getContext(),
                     marcada ? R.color.pe_roxo : R.color.pe_borda));
             h.card.setStrokeWidth((int) ((marcada ? 2 : 1) * h.itemView.getResources().getDisplayMetrics().density));
-            // Leitor de tela: anuncia a opção e se está marcada
             h.card.setContentDescription(texto + (marcada ? ", selecionada" : ", não selecionada"));
             h.card.setOnClickListener(v -> {
                 int pos = h.getBindingAdapterPosition();

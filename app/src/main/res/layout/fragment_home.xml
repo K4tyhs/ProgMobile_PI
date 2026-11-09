@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Home / aba de Notificações (mockup "Home") -->
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -15,7 +14,6 @@
         android:paddingTop="8dp"
         android:paddingEnd="16dp">
 
-        <!-- Banner principal com o logo -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_banner"
             android:layout_width="0dp"
@@ -77,7 +75,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/txt_banner_titulo" />
 
-                <!-- Logo compacto: "PRÓXIMA" + "ETAPA" em cadeia vertical centralizada -->
                 <TextView
                     android:id="@+id/txt_logo_proxima"
                     android:layout_width="wrap_content"
@@ -112,7 +109,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- "Está chegando...": evento inscrito mais próximo (atalho para o calendário) -->
         <TextView
             android:id="@+id/txt_titulo_chegando"
             android:layout_width="wrap_content"
@@ -172,7 +168,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/txt_proximo_info" />
 
-                <!-- Caixa em forma de calendário com mês e dia -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/caixa_data"
                     android:layout_width="72dp"
@@ -212,7 +207,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Avisos / notificações -->
         <TextView
             android:id="@+id/txt_titulo_avisos"
             android:layout_width="wrap_content"
@@ -258,7 +252,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rv_notificacoes" />
 
-        <!-- Cursos e palestras -->
         <TextView
             android:id="@+id/txt_titulo_cursos"
             android:layout_width="wrap_content"
@@ -270,7 +263,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txt_sem_avisos" />
 
-        <!-- RFM03: alterna entre cursos disponíveis e cursos em que o aluno está inscrito -->
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chips_filtro_cursos"
             android:layout_width="0dp"

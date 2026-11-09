@@ -21,16 +21,6 @@ import java.util.List;
 
 import com.example.proximaetapa.domain.teste.TesteDefinicao;
 
-/**
- * Definições dos testes de perfil (perguntas, alternativas e critérios).
- * PDP: "os testes deverão possuir perguntas, alternativas, critérios de
- * classificação e resultado, de acordo com o banco de dados".
- *
- *  - A sincronização baixa os testes da API (GET /testes) e salva em
- *    files/testes_cache.json (persistência local: funciona offline).
- *  - Se ainda não houve sincronização, usa a cópia que vem no app
- *    (assets/testes.json) para o aluno nunca ficar sem os testes.
- */
 public final class TesteRepository {
 
     private static final String TAG = "TesteRepository";
@@ -59,7 +49,6 @@ public final class TesteRepository {
         return null;
     }
 
-    /** Chamado pela sincronização com a lista que veio da API. */
     public static synchronized void salvar(Context ctx, List<TesteDefinicao> doServidor) {
         if (doServidor == null || doServidor.isEmpty()) return;
         File f = new File(ctx.getApplicationContext().getFilesDir(), CACHE);

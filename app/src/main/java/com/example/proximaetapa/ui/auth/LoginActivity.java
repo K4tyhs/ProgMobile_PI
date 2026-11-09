@@ -20,13 +20,8 @@ import com.example.proximaetapa.ui.main.MainActivity;
 import com.example.proximaetapa.ui.widget.CampoSenha;
 import com.example.proximaetapa.util.SessionManager;
 
-/**
- * Login do aluno (RFM01). Se já existe sessão salva no aparelho, vai direto
- * para a Home ("entra com a conta uma vez e fica salvo no dispositivo").
- */
 public class LoginActivity extends AppCompatActivity {
 
-    /** Mensagem opcional mostrada ao abrir o login (ex.: sessão expirada). */
     public static final String EXTRA_AVISO = "aviso";
 
     private EditText edtEmail;
@@ -59,7 +54,6 @@ public class LoginActivity extends AppCompatActivity {
             return false;
         });
 
-        // Intent explícita para a tela de cadastro
         findViewById(R.id.btn_cadastrar).setOnClickListener(v ->
                 startActivity(new Intent(this, CadastroActivity.class)));
         findViewById(R.id.btn_esqueci).setOnClickListener(v -> {
@@ -73,13 +67,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void entrar() {
-        if (!btnEntrar.isEnabled()) return; // já está entrando (evita envio duplo pelo Enter)
+        if (!btnEntrar.isEnabled()) return;
         String email = texto(edtEmail);
         String senha = texto(edtSenha);
         edtEmail.setError(null);
         edtSenha.setError(null);
 
-        // Validação antes de chamar a API (mensagens claras - Nielsen)
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             edtEmail.setError(getString(R.string.erro_email_invalido));
             edtEmail.requestFocus();
@@ -119,7 +112,6 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
-    /** Texto do campo sem espaços nas pontas (nunca nulo). */
     public static String texto(EditText edt) {
         return edt.getText() == null ? "" : edt.getText().toString().trim();
     }

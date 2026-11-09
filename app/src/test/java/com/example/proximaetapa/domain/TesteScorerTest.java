@@ -12,7 +12,6 @@ import java.util.Map;
 import com.example.proximaetapa.domain.teste.TesteDefinicao;
 import com.example.proximaetapa.domain.teste.TesteScorer;
 
-/** Testes da pontuação dos testes de perfil (RFM10). */
 public class TesteScorerTest {
 
     private static TesteDefinicao testeDeExemplo() {
@@ -37,7 +36,6 @@ public class TesteScorerTest {
     @Test
     public void somaPontosPorDimensaoEEscolheAPrincipal() {
         TesteDefinicao t = testeDeExemplo();
-        // Respostas: I, I, C
         Map<String, Integer> pontos = TesteScorer.pontuar(t, new int[]{1, 1, 3});
         assertEquals(Integer.valueOf(2), pontos.get("I"));
         assertEquals(Integer.valueOf(1), pontos.get("C"));

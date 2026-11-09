@@ -6,7 +6,6 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
-/** Gera imagens de QR Code (convite/ingresso e cartão do aluno). */
 public final class QrUtils {
 
     private QrUtils() {

@@ -10,11 +10,6 @@ import com.example.proximaetapa.data.repository.AppRepository;
 import com.example.proximaetapa.ui.auth.LoginActivity;
 import com.example.proximaetapa.util.SessionManager;
 
-/**
- * RFM15 / segurança: quando a API responde 401 e o Supabase recusa a renovação
- * do token, o ApiClient marca a sessão como expirada. As telas logadas observam
- * esse aviso e o aluno volta ao login com os dados locais apagados (LGPD).
- */
 public final class SessaoGuard {
 
     private SessaoGuard() {

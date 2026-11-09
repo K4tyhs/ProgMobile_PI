@@ -3,7 +3,6 @@ package com.example.proximaetapa.data.local.entity;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-/** Bolsa de estudo nacional ou internacional (funcionalidade mais pedida: 77,8%). */
 @Entity(tableName = "bolsas")
 public class Bolsa {
 

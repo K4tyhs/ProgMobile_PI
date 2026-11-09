@@ -31,11 +31,6 @@ import com.example.proximaetapa.ui.adapter.CertificadoAdapter;
 import com.example.proximaetapa.util.CertificadoPdf;
 import com.example.proximaetapa.util.DateUtils;
 
-/**
- * Meus certificados (RFM09): todos os cursos da Próxima Etapa, com os
- * concluídos em destaque. Toque para visualizar, baixar ou compartilhar o PDF.
- * Se ainda não foi liberado, mostra o critério que falta (fluxo 4 da UX).
- */
 public class CertificadosActivity extends BaseActivity {
 
     private CertificadoAdapter adapter;
@@ -112,7 +107,6 @@ public class CertificadosActivity extends BaseActivity {
             Integer p = presPorEvento.get(e.id);
             itens.add(new CertificadoAdapter.Item(e, c, p == null ? 0 : p));
         }
-        // Concluídos primeiro, depois por instituição
         Collections.sort(itens, (a, b) -> {
             boolean ca = a.certificado != null, cb = b.certificado != null;
             if (ca != cb) return ca ? -1 : 1;
@@ -148,7 +142,6 @@ public class CertificadosActivity extends BaseActivity {
 
     private enum Acao { VISUALIZAR, BAIXAR, COMPARTILHAR }
 
-    /** Gera o PDF fora da thread principal e depois abre/salva/compartilha. */
     private void gerar(Certificado c, Acao acao) {
         String nome = aluno == null ? "" : aluno.nome;
         new Thread(() -> {

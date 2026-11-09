@@ -22,7 +22,6 @@ public interface NotificacaoDao {
     @Query("SELECT * FROM notificacoes")
     List<Notificacao> listarTodas();
 
-    /** Novas no topo; some sozinha um dia depois que o evento termina. */
     @Query("SELECT * FROM notificacoes WHERE removida = 0 AND (expiraEm IS NULL OR expiraEm > :agora) "
             + "ORDER BY dataPublicacao DESC")
     LiveData<List<Notificacao>> observarAtivas(long agora);

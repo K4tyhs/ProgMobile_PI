@@ -16,11 +16,6 @@ import androidx.work.WorkerParameters;
 
 import java.util.concurrent.TimeUnit;
 
-/**
- * Tarefa em segundo plano (WorkManager) que sincroniza os dados:
- *  - a cada 15 minutos, quando houver internet (novos cursos, avisos...);
- *  - logo que a conexão voltar, se algo foi feito offline (ex.: check-in).
- */
 public class SyncWorker extends Worker {
 
     private static final String UNICA_PERIODICA = "sync_periodica";
@@ -51,7 +46,6 @@ public class SyncWorker extends Worker {
                 ExistingPeriodicWorkPolicy.KEEP, req);
     }
 
-    /** Agenda o envio da fila assim que houver internet. */
     public static void sincronizarQuandoOnline(Context ctx) {
         OneTimeWorkRequest req = new OneTimeWorkRequest.Builder(SyncWorker.class)
                 .setConstraints(comInternet())

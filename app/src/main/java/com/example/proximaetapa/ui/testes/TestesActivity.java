@@ -24,7 +24,6 @@ import com.example.proximaetapa.data.repository.TesteRepository;
 import com.example.proximaetapa.domain.teste.TesteDefinicao;
 import com.example.proximaetapa.ui.BaseActivity;
 
-/** Lista dos testes de perfil (DISC e vocacional RIASEC) com o último resultado. */
 public class TestesActivity extends BaseActivity {
 
     private final TesteAdapter adapter = new TesteAdapter();
@@ -39,7 +38,6 @@ public class TestesActivity extends BaseActivity {
         ((RecyclerView) findViewById(R.id.rv_testes)).setAdapter(adapter);
 
         AppRepository.get(this).resultadosTeste().observe(this, lista -> {
-            // Último resultado de cada tipo (a lista vem do mais recente para o mais antigo)
             Map<String, ResultadoTeste> ultimo = new HashMap<>();
             if (lista != null) {
                 for (ResultadoTeste r : lista) {
@@ -63,7 +61,6 @@ public class TestesActivity extends BaseActivity {
         startActivity(i);
     }
 
-    /** Cards dos testes (RecyclerView). */
     private class TesteAdapter extends RecyclerView.Adapter<TesteAdapter.VH> {
 
         List<TesteDefinicao> testes;

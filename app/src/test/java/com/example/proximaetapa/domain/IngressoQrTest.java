@@ -9,7 +9,6 @@ import org.junit.Test;
 import com.example.proximaetapa.data.local.entity.Evento;
 import com.example.proximaetapa.data.local.entity.Inscricao;
 
-/** QR Code único por inscrição: "PE:INGRESSO:{id}:{codigoIngresso}" (formato fixo do leitor web). */
 public class IngressoQrTest {
 
     private static final String ID = "3f6c2a1e-8b4d-4c1a-9e2f-7a5b6c8d9e01";
@@ -44,7 +43,7 @@ public class IngressoQrTest {
     @Test
     public void qrNaoLevaDadoPessoal() {
         String qr = IngressoQr.conteudo(inscricao(Inscricao.ATIVA, true), evento(Evento.TIPO_CURSO));
-        assertEquals(4, qr.split(":").length); // PE, INGRESSO, id, código — nada além disso
+        assertEquals(4, qr.split(":").length);
         assertFalse(qr.contains("@"));
     }
 

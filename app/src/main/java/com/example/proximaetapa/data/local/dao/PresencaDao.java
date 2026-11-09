@@ -11,7 +11,6 @@ import java.util.List;
 
 import com.example.proximaetapa.data.local.entity.Presenca;
 
-/** Presenças do aluno: cópia local do que o servidor devolve (somente leitura). */
 @Dao
 public abstract class PresencaDao {
 
@@ -21,7 +20,6 @@ public abstract class PresencaDao {
     @Query("DELETE FROM presencas WHERE alunoId = :alunoId")
     public abstract void apagarDoAluno(long alunoId);
 
-    /** O servidor é a única fonte de verdade: troca tudo pelo que veio dele. */
     @Transaction
     public void substituirTodas(long alunoId, List<Presenca> doServidor) {
         apagarDoAluno(alunoId);

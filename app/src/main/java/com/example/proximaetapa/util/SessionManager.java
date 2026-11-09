@@ -9,12 +9,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKey;
 
-/**
- * Guarda a sessão do aluno (token da API, id e nome) com criptografia
- * (EncryptedSharedPreferences) — requisito de segurança do PDP:
- * "armazenamento seguro de tokens/sessões".
- * O aluno entra uma vez e a sessão fica salva no aparelho até o logout.
- */
 public final class SessionManager {
 
     private static final String TAG = "SessionManager";
@@ -40,7 +34,6 @@ public final class SessionManager {
                     EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
                     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM);
         } catch (Exception e) {
-            // Alguns emuladores antigos falham no Keystore: usa preferências comuns
             Log.w(TAG, "Criptografia indisponível, usando SharedPreferences comum", e);
             p = ctx.getSharedPreferences(ARQUIVO + "_fallback", Context.MODE_PRIVATE);
         }
@@ -58,7 +51,6 @@ public final class SessionManager {
         return instancia;
     }
 
-    /** Dados do aluno logado (depois que o token já foi salvo). */
     public void salvarAluno(long alunoId, String nome) {
         prefs.edit()
                 .putLong(K_ALUNO_ID, alunoId)
@@ -66,12 +58,6 @@ public final class SessionManager {
                 .apply();
     }
 
-    /**
-     * Tokens do Supabase Auth. O access token dura ~1h; o refresh token
-     * serve para pegar um novo sem pedir a senha de novo.
-     *
-     * @param expiraEm momento em que o access token expira (epoch ms)
-     */
     public synchronized void salvarTokens(String accessToken, String refreshToken, long expiraEm) {
         prefs.edit()
                 .putString(K_TOKEN, accessToken)
@@ -126,20 +112,15 @@ public final class SessionManager {
 
     public void limpar() {
         prefs.edit().clear().apply();
-        // Descarta um aviso de "sessão expirada" antigo, para não derrubar o próximo login
         sessaoExpirada.postValue(false);
     }
 
-    // ---------- Sessão expirada (API respondeu 401) ----------
-
-    /** A MainActivity observa e leva o aluno de volta ao login. */
     private final MutableLiveData<Boolean> sessaoExpirada = new MutableLiveData<>(false);
 
     public LiveData<Boolean> sessaoExpirada() {
         return sessaoExpirada;
     }
 
-    /** Chamado pelo interceptor HTTP (thread de rede): usa postValue. */
     public void marcarSessaoExpirada() {
         sessaoExpirada.postValue(true);
     }

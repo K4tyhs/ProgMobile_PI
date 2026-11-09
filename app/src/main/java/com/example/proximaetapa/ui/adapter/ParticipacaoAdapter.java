@@ -19,10 +19,8 @@ import com.example.proximaetapa.domain.ResumoParticipacao;
 import com.example.proximaetapa.ui.widget.BarraPercentual;
 import com.example.proximaetapa.util.DateUtils;
 
-/** Participação por curso inscrito: presenças, faltas, % e certificado (RFM07). */
 public class ParticipacaoAdapter extends RecyclerView.Adapter<ParticipacaoAdapter.VH> {
 
-    /** Um curso inscrito e o resumo da participação nele. */
     public static class Item {
         public final Evento evento;
         public final ResumoParticipacao resumo;
@@ -90,7 +88,6 @@ public class ParticipacaoAdapter extends RecyclerView.Adapter<ParticipacaoAdapte
         }
         h.certificado.setText(certificado);
 
-        // Leitor de tela lê o card inteiro de uma vez
         h.itemView.setContentDescription(e.titulo + ". " + h.numeros.getText() + ". "
                 + (comecou ? r.percentual + " por cento de presença. " : "") + certificado);
         h.itemView.setOnClickListener(v -> listener.aoAbrir(e));

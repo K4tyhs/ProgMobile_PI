@@ -3,20 +3,12 @@ package com.example.proximaetapa.domain;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-/**
- * Resumo da participação do aluno em UM curso/palestra (RFM07):
- * presenças, faltas, encontros que ainda vão acontecer e percentual.
- *
- * Regra: só vira falta o encontro que já terminou (até ontem) sem presença.
- * O encontro de hoje ainda não conta como falta, pois o aluno pode registrar.
- */
 public final class ResumoParticipacao {
 
     public final int totalEncontros;
     public final int presencas;
     public final int faltas;
     public final int futuros;
-    /** Presenças sobre os encontros que já aconteceram (0 a 100). */
     public final int percentual;
     public final boolean elegivelCertificado;
     public final int faltamParaCertificado;

@@ -26,26 +26,10 @@ import com.example.proximaetapa.util.NotificationHelper;
 import com.example.proximaetapa.util.SessionManager;
 import retrofit2.Response;
 
-/**
- * Sincronização app <-> Supabase (RFM15). Roda de forma síncrona (chamada por um
- * Worker ou por uma thread do repositório), em duas etapas:
- *
- *  1) ENVIA a fila local: inscrições (rpc/inscrever), cancelamentos
- *     (rpc/cancelar_inscricao) e resultados de testes feitos sem internet
- *     (campo sincronizado = false). Presença NÃO é enviada pelo app: quem
- *     registra é o leitor web (validar_ingresso).
- *  2) BAIXA os dados atualizados do aluno e grava no Room. As presenças vêm de
- *     rpc/minhas_presencas e substituem a tabela local (o servidor é a única
- *     fonte de verdade); cada presença nova gera o aviso "Presença confirmada".
- *
- * Se a internet cair no meio, nada se perde: a fila continua no banco local
- * e o WorkManager tenta de novo quando a conexão voltar.
- */
 public class SyncManager {
 
     private static final Object TRAVA = new Object();
 
-    /** Resultado da sincronização. */
     public static final class Resultado {
         public final boolean ok;
         public final String erro;
@@ -56,7 +40,6 @@ public class SyncManager {
         }
     }
 
-    /** Erro devolvido pela API (ex.: 401 sessão expirada, 500...). */
     private static final class ErroApi extends Exception {
         ErroApi(String msg) {
             super(msg);
@@ -92,10 +75,6 @@ public class SyncManager {
         }
     }
 
-    // ------------------------------------------------------------------
-    // 1) Envio da fila local
-    // ------------------------------------------------------------------
-
     private void enviarPendentes() throws IOException, ErroApi {
         for (Inscricao i : db.inscricaoDao().pendentes()) {
             if (Inscricao.ATIVA.equals(i.status)) {
@@ -115,32 +94,21 @@ public class SyncManager {
         }
     }
 
-    /** Corpo de rpc/inscrever: só {id, eventoId, dataInscricao, codigoIngresso}. */
     public static Dtos.InscricaoRequest requisicao(Inscricao i) {
         return new Dtos.InscricaoRequest(i.id, i.eventoId, i.dataInscricao, i.codigoIngresso);
     }
 
-    /**
-     * true = pode tirar da fila (aceito pelo servidor, ou recusado por regra de
-     * negócio 4xx — nesse caso o download seguinte corrige o dado local).
-     * 401 interrompe; 5xx mantém na fila para tentar depois.
-     */
     private boolean tratarEnvio(Response<?> r) throws ErroApi {
         if (r.isSuccessful()) return true;
         if (r.code() == 401) throw new ErroApi(ApiClient.mensagemDeErro(r));
         return r.code() >= 400 && r.code() < 500;
     }
 
-    // ------------------------------------------------------------------
-    // 2) Download dos dados
-    // ------------------------------------------------------------------
-
     private void baixarTudo(long alunoId) throws IOException, ErroApi {
         Aluno aluno = corpo(api.meuPerfil(Dtos.VAZIO).execute());
         db.alunoDao().salvar(aluno);
         sessao.setNome(aluno.nome);
 
-        // Guarda a agenda antiga para avisar o aluno se algo mudou (RFM13)
         Map<Long, Evento> agendaAntiga = new HashMap<>();
         for (Evento e : db.eventoDao().listarTodos()) agendaAntiga.put(e.id, e);
         Set<Long> inscritos = new HashSet<>(db.inscricaoDao().idsEventosAtivos(alunoId));
@@ -163,15 +131,9 @@ public class SyncManager {
 
         mesclarNotificacoes(corpo(api.notificacoes(Dtos.VAZIO).execute()));
 
-        // Testes de perfil (perguntas e critérios do banco) ficam salvos no celular
         TesteRepository.salvar(ctx, corpo(api.testes(Dtos.VAZIO).execute()));
     }
 
-    /**
-     * Substitui as presenças locais pelas do servidor e avisa cada presença nova
-     * ("Presença confirmada em <evento> (<data>)"). Na primeira sincronização não
-     * avisa, para não notificar o histórico inteiro.
-     */
     private void atualizarPresencas(long alunoId, List<Presenca> doServidor, List<Evento> eventos) {
         Set<String> conhecidas = new HashSet<>();
         for (Presenca p : db.presencaDao().listar(alunoId)) conhecidas.add(chave(p));
@@ -195,13 +157,8 @@ public class SyncManager {
         return p.eventoId + "|" + p.dataEncontro;
     }
 
-    /**
-     * RFM13: avisa quando muda data, horário ou local de um evento em que o
-     * aluno está inscrito. O aviso é criado no próprio celular (id negativo,
-     * para nunca colidir com os ids das notificações do servidor).
-     */
     private void avisarMudancasNaAgenda(Map<Long, Evento> antiga, List<Evento> nova, Set<Long> inscritos) {
-        if (antiga.isEmpty()) return; // primeira carga: nada a comparar
+        if (antiga.isEmpty()) return;
         long agora = System.currentTimeMillis();
         for (Evento e : nova) {
             Evento antes = antiga.get(e.id);
@@ -224,12 +181,6 @@ public class SyncManager {
         }
     }
 
-    /**
-     * Junta as notificações do servidor com o estado local (lida/apagada) e
-     * dispara notificação do sistema para as novas (RFM04/RFM13). Certificados
-     * novos chegam aqui com tipo CERTIFICADO. Na primeira sincronização não
-     * notifica, para não "inundar" o aluno.
-     */
     private void mesclarNotificacoes(List<Notificacao> doServidor) {
         Map<Long, Notificacao> locais = new HashMap<>();
         for (Notificacao n : db.notificacaoDao().listarTodas()) locais.put(n.id, n);

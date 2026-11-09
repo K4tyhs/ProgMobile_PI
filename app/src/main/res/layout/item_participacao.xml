@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Participação em um curso inscrito: presenças, faltas, % e situação do certificado (RFM07) -->
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -47,7 +46,6 @@
             app:layout_constraintTop_toBottomOf="@id/txt_titulo"
             tools:text="FECAP · 10/09/2026 a 13/09/2026" />
 
-        <!-- Barra de presença (ConstraintLayout com largura em %) -->
         <View
             android:id="@+id/barra_trilho"
             android:layout_width="0dp"

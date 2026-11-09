@@ -17,11 +17,6 @@ import com.example.proximaetapa.data.remote.dto.Dtos;
 import com.example.proximaetapa.data.repository.AppRepository;
 import com.example.proximaetapa.ui.widget.CampoSenha;
 
-/**
- * Nova senha. Abre pelo link do e-mail de recuperação do Supabase:
- *   proximaetapa://nova-senha#access_token=...&refresh_token=...&expires_in=3600&type=recovery
- * O token do link vale só para trocar a senha; depois o aluno entra de novo.
- */
 public class NovaSenhaActivity extends AppCompatActivity {
 
     private static final int SENHA_MINIMA = 6;
@@ -58,7 +53,6 @@ public class NovaSenhaActivity extends AppCompatActivity {
         });
     }
 
-    /** Lê os tokens do fragmento (#...) do link do e-mail. */
     private static Dtos.AuthResponse lerLink(Uri link) {
         if (link == null || link.getEncodedFragment() == null) return null;
         Uri params = Uri.parse("x://x?" + link.getEncodedFragment());

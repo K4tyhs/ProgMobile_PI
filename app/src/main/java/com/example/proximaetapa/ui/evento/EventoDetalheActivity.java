@@ -30,11 +30,6 @@ import com.example.proximaetapa.ui.testes.TestesActivity;
 import com.example.proximaetapa.util.CapaUtils;
 import com.example.proximaetapa.util.DateUtils;
 
-/**
- * Detalhes de um evento ou de uma bolsa.
- *  - Palestra/curso da Próxima Etapa: botão "Inscreva-se" -> gera o convite com QR Code.
- *  - Evento externo (ENEM, vestibular) ou bolsa: botão para o site oficial (Intent implícita).
- */
 public class EventoDetalheActivity extends BaseActivity {
 
     public static final String EXTRA_EVENTO_ID = "evento_id";
@@ -97,10 +92,6 @@ public class EventoDetalheActivity extends BaseActivity {
         });
     }
 
-    // ------------------------------------------------------------------
-    // Evento (palestra, curso ou externo)
-    // ------------------------------------------------------------------
-
     private void atualizarEvento() {
         if (evento == null) return;
         Evento e = evento;
@@ -114,7 +105,6 @@ public class EventoDetalheActivity extends BaseActivity {
         txtData.setText(DateUtils.periodo(e.dataInicio, e.dataFim));
         txtDescricao.setText(e.descricao);
 
-        // Dados numéricos do evento
         chipsMeta.removeAllViews();
         if (!e.isExterno()) {
             adicionarChip(getString(R.string.meta_carga, e.cargaHoraria));
@@ -158,7 +148,6 @@ public class EventoDetalheActivity extends BaseActivity {
         }
     }
 
-    /** Antes de inscrever, deixa clara a regra de não comparecimento (mockup "Meus Ingressos"). */
     private void confirmarInscricao(Evento e) {
         new MaterialAlertDialogBuilder(this)
                 .setTitle(getString(R.string.confirmar_inscricao_titulo, e.titulo))
@@ -194,7 +183,6 @@ public class EventoDetalheActivity extends BaseActivity {
         startActivity(i);
     }
 
-    /** Intent implícita: integração com o calendário do celular (extensão do PDP). */
     private void adicionarNaAgendaDoCelular(Evento e) {
         Intent i = new Intent(Intent.ACTION_INSERT)
                 .setData(CalendarContract.Events.CONTENT_URI)
@@ -209,10 +197,6 @@ public class EventoDetalheActivity extends BaseActivity {
             Snackbar.make(btnPrincipal, R.string.sem_app_agenda, Snackbar.LENGTH_LONG).show();
         }
     }
-
-    // ------------------------------------------------------------------
-    // Bolsa
-    // ------------------------------------------------------------------
 
     private void mostrarBolsa(Bolsa b) {
         if (b == null) return;
@@ -237,8 +221,6 @@ public class EventoDetalheActivity extends BaseActivity {
         btnPrincipal.setOnClickListener(v -> abrirLink(b.link));
         btnSecundario.setVisibility(View.GONE);
     }
-
-    // ------------------------------------------------------------------
 
     private void adicionarChip(String texto) {
         Chip c = new Chip(this);

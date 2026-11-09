@@ -3,12 +3,6 @@ package com.example.proximaetapa.domain;
 import java.text.Normalizer;
 import java.util.Locale;
 
-/**
- * Respostas da ProxIA (RFM12), baseadas nas dúvidas mais comuns.
- * Funciona no próprio celular, inclusive sem internet. No futuro, pode virar
- * um chatbot apoiado na base de conhecimento da ONG (tabela ai_knowledge
- * do Supabase), como sugerido nas extensões do PDP.
- */
 public final class ChatbotFaq {
 
     private ChatbotFaq() {

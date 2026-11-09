@@ -17,7 +17,6 @@ import com.example.proximaetapa.data.repository.AppRepository;
 import com.example.proximaetapa.ui.adapter.BolsaAdapter;
 import com.example.proximaetapa.ui.evento.EventoDetalheActivity;
 
-/** Aba Bolsas: bolsas em destaque e internacionais (pedido de 77,8% na pesquisa). */
 public class BolsasFragment extends Fragment {
 
     @Nullable

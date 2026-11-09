@@ -18,12 +18,6 @@ import com.example.proximaetapa.data.repository.AppRepository;
 import com.example.proximaetapa.ui.perfil.EditarPerfilActivity;
 import com.example.proximaetapa.ui.widget.CampoSenha;
 
-/**
- * Cadastro do primeiro acesso (Supabase Auth signup): nome, e-mail, telefone,
- * endereço, cidade e escola (opcionais), senha e confirmação. Os dados
- * demográficos ficam em Editar perfil e não aparecem no cartão do aluno.
- * Depois do cadastro abre o onboarding opcional de interesses.
- */
 public class CadastroActivity extends AppCompatActivity {
 
     private static final int SENHA_MINIMA = 6;
@@ -60,8 +54,6 @@ public class CadastroActivity extends AppCompatActivity {
         String senha = LoginActivity.texto(edtSenha);
         String confirmacao = LoginActivity.texto(edtConfirmacao);
 
-        // Validações com mensagens claras (prevenção de erros - Nielsen).
-        // Valida de cima para baixo e leva o foco ao primeiro campo com problema.
         if (nome.split("\\s+").length < 2) {
             erro(edtNome, R.string.erro_nome);
             return;
@@ -70,7 +62,6 @@ public class CadastroActivity extends AppCompatActivity {
             erro(edtEmail, R.string.erro_email_invalido);
             return;
         }
-        // Telefone é opcional; se preenchido, precisa ter DDD + número (10 ou 11 dígitos)
         if (!telefone.isEmpty() && (digitosTelefone < 10 || digitosTelefone > 11)) {
             erro(edtTelefone, R.string.erro_telefone);
             return;
@@ -107,10 +98,8 @@ public class CadastroActivity extends AppCompatActivity {
                 progresso.setVisibility(View.GONE);
                 btnCadastrar.setEnabled(true);
                 if (AppRepository.MSG_CONFIRMAR_EMAIL.equals(mensagem)) {
-                    // Conta criada, falta confirmar o e-mail: volta ao login com o aviso
                     Intent i = new Intent(CadastroActivity.this, LoginActivity.class);
                     i.putExtra(LoginActivity.EXTRA_AVISO, mensagem);
-                    // CLEAR_TOP sem SINGLE_TOP recria o Login, que mostra o EXTRA_AVISO no onCreate
                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(i);
                     finish();

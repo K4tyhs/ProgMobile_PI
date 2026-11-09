@@ -21,10 +21,6 @@ import com.example.proximaetapa.data.repository.AppRepository;
 import com.example.proximaetapa.ui.BaseActivity;
 import com.example.proximaetapa.ui.main.MainActivity;
 
-/**
- * Editar perfil (RFM14): tags de interesse, LinkedIn e dados demográficos.
- * Com EXTRA_ONBOARDING = true funciona como o onboarding opcional do 1º acesso.
- */
 public class EditarPerfilActivity extends BaseActivity {
 
     public static final String EXTRA_ONBOARDING = "onboarding";
@@ -56,7 +52,6 @@ public class EditarPerfilActivity extends BaseActivity {
         btnSalvar = findViewById(R.id.btn_salvar);
         progresso = findViewById(R.id.progresso);
 
-        // Tags de interesse (chips selecionáveis)
         for (String tag : getResources().getStringArray(R.array.interesses)) {
             Chip c = new Chip(this);
             c.setText(tag);
@@ -77,7 +72,7 @@ public class EditarPerfilActivity extends BaseActivity {
             aluno = a;
             if (a != null && !preenchido) {
                 preencher(a);
-                preenchido = true; // não sobrescreve o que o aluno está digitando
+                preenchido = true;
             }
         });
     }

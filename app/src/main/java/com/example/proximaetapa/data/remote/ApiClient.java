@@ -20,20 +20,11 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Monta o cliente Retrofit do Supabase (uma instância para o app inteiro).
- *  - Toda chamada leva o cabeçalho "apikey" (chave PÚBLICA do projeto).
- *  - Chamadas do aluno logado levam "Authorization: Bearer {access token}".
- *  - O access token vence em ~1h: ele é renovado antes de vencer e, se a API
- *    ainda assim responder 401, o Authenticator renova e repete a chamada.
- *    Se a renovação for recusada, a sessão expirou e o app volta ao login.
- */
 public final class ApiClient {
 
     private static final Gson GSON = new Gson();
     private static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
     private static final Object TRAVA_RENOVACAO = new Object();
-    /** Renova o token quando faltar menos que isso para vencer. */
     private static final long MARGEM_MS = 60_000L;
 
     private static ApiService servico;
@@ -45,14 +36,11 @@ public final class ApiClient {
         if (servico == null) {
             SessionManager sessao = SessionManager.get(ctx.getApplicationContext());
 
-            // Cliente "puro", usado só para renovar o token (sem interceptors)
             OkHttpClient base = new OkHttpClient.Builder()
                     .connectTimeout(15, TimeUnit.SECONDS)
                     .readTimeout(20, TimeUnit.SECONDS)
                     .build();
 
-            // Segurança: registra só método, URL e status. O corpo NÃO é registrado,
-            // porque o login e o cadastro levam a senha no corpo da requisição.
             HttpLoggingInterceptor log = new HttpLoggingInterceptor();
             log.setLevel(BuildConfig.DEBUG
                     ? HttpLoggingInterceptor.Level.BASIC
@@ -75,15 +63,12 @@ public final class ApiClient {
                         Request req = resposta.request();
                         String usado = tokenDoCabecalho(req);
                         if (!usaTokenDoAluno(req) || usado == null) return null;
-                        // Já renovou e repetiu uma vez e ainda deu 401: a conta não
-                        // tem mais acesso (ex.: excluída ou bloqueada) -> encerra a sessão
                         if (resposta.priorResponse() != null) {
                             sessao.marcarSessaoExpirada();
                             return null;
                         }
                         String novo = renovar(base, sessao, usado);
                         if (novo == null) {
-                            // Supabase recusou o refresh token: sessão encerrada -> volta ao login
                             sessao.marcarSessaoExpirada();
                             return null;
                         }
@@ -102,7 +87,6 @@ public final class ApiClient {
         return servico;
     }
 
-    /** Guarda os tokens devolvidos pelo Supabase Auth. */
     public static void salvarSessao(SessionManager sessao, Dtos.AuthResponse a) {
         long expiraEm = a.expires_at > 0
                 ? a.expires_at * 1000L
@@ -110,7 +94,6 @@ public final class ApiClient {
         sessao.salvarTokens(a.access_token, a.refresh_token, expiraEm);
     }
 
-    /** Rotas de login/cadastro/recuperação não usam o token do aluno. */
     private static boolean usaTokenDoAluno(Request req) {
         String caminho = req.url().encodedPath();
         return !caminho.endsWith("/auth/v1/token")
@@ -123,7 +106,6 @@ public final class ApiClient {
         return h != null && h.startsWith("Bearer ") ? h.substring(7) : null;
     }
 
-    /** Token atual; se estiver para vencer, tenta renovar antes da chamada. */
     private static String tokenValido(OkHttpClient base, SessionManager sessao) {
         String token = sessao.getToken();
         if (token == null) return null;
@@ -132,25 +114,16 @@ public final class ApiClient {
             try {
                 String novo = renovar(base, sessao, token);
                 if (novo != null) return novo;
-                // Refresh recusado: a sessão acabou (a chamada vai dar 401 e o app volta ao login)
                 sessao.marcarSessaoExpirada();
             } catch (IOException ignorada) {
-                // sem internet: segue com o token atual (a chamada vai falhar por rede)
             }
         }
         return token;
     }
 
-    /**
-     * Troca o refresh token por um access token novo.
-     *
-     * @return o token novo, ou null se o Supabase recusou (sessão encerrada)
-     * @throws IOException sem conexão (a sessão continua válida)
-     */
     private static String renovar(OkHttpClient base, SessionManager sessao, String tokenUsado)
             throws IOException {
         synchronized (TRAVA_RENOVACAO) {
-            // Outra thread pode ter acabado de renovar
             String atual = sessao.getToken();
             if (atual != null && !atual.equals(tokenUsado)
                     && sessao.getTokenExpiraEm() - System.currentTimeMillis() > MARGEM_MS) {
@@ -178,31 +151,20 @@ public final class ApiClient {
         }
     }
 
-    /**
-     * Traduz o erro do Supabase para uma mensagem ao aluno. Formatos lidos:
-     *  - REST/PostgREST: {"code","message","details","hint"}
-     *  - Auth:           {"error","error_description","msg","error_code"}
-     *  - API antiga:     {"erro"} (compatibilidade)
-     * Sessão expirada (401 / "JWT expired") é tratada no Authenticator: se o
-     * refresh falhar, a sessão é marcada como expirada e o app volta ao login.
-     */
     public static String mensagemDeErro(Response<?> resposta) {
         Dtos.ErroResponse e = null;
         try (ResponseBody corpo = resposta.errorBody()) {
             if (corpo != null) e = GSON.fromJson(corpo.string(), Dtos.ErroResponse.class);
         } catch (IOException | RuntimeException ignored) {
-            // corpo de erro fora do padrão: usa a mensagem genérica abaixo
         }
         return mensagemDeErro(resposta.code(), e);
     }
 
-    /** Versão testável (sem Retrofit): status HTTP + corpo já convertido. */
     public static String mensagemDeErro(int status, Dtos.ErroResponse e) {
         if (e != null) {
             String traduzida = traduzirErroAuth(e);
             if (traduzida != null) return traduzida;
             if (contem(e.message, "JWT expired")) return MSG_SESSAO_EXPIRADA;
-            // Regras de negócio das funções SQL (RAISE EXCEPTION) já vêm em português
             if ("P0001".equals(e.code) && e.message != null) return e.message;
             if (e.erro != null && !e.erro.isEmpty()) return e.erro;
         }

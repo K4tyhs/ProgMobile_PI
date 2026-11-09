@@ -17,7 +17,6 @@ import com.example.proximaetapa.domain.IngressoQr;
 import com.example.proximaetapa.util.CapaUtils;
 import com.example.proximaetapa.util.DateUtils;
 
-/** Lista de ingressos (convites) com "Abrir convite" e "Cancelar". */
 public class IngressoAdapter extends RecyclerView.Adapter<IngressoAdapter.VH> {
 
     public interface Listener {
@@ -53,7 +52,6 @@ public class IngressoAdapter extends RecyclerView.Adapter<IngressoAdapter.VH> {
         CapaUtils.aplicar(h.capa, h.txtCapa, it.evento.instituicao, raio);
         h.titulo.setText(it.evento.titulo);
         h.quando.setText(DateUtils.periodo(it.evento.dataInicio, it.evento.dataFim));
-        // Sem confirmação do servidor ainda não há QR (o leitor web não acharia o ingresso)
         IngressoQr.Estado estado = IngressoQr.estado(it.inscricao, it.evento);
         String status = estado == IngressoQr.Estado.DISPONIVEL
                 ? "Ingresso " + it.inscricao.codigoIngresso

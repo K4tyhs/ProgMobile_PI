@@ -17,11 +17,6 @@ import com.example.proximaetapa.R;
 import com.example.proximaetapa.data.local.entity.Notificacao;
 import com.example.proximaetapa.util.DateUtils;
 
-/**
- * Lista de notificações da Home.
- *  - barra amarela à esquerda = não lida (some depois que o aluno abre);
- *  - arrastar para o lado apaga (ItemTouchHelper no HomeFragment).
- */
 public class NotificacaoAdapter extends RecyclerView.Adapter<NotificacaoAdapter.VH> {
 
     public interface Listener {
@@ -70,7 +65,6 @@ public class NotificacaoAdapter extends RecyclerView.Adapter<NotificacaoAdapter.
         }
         h.itemView.setOnClickListener(v -> listener.aoAbrir(n));
 
-        // Leitor de tela: informa se a notificação é nova
         h.itemView.setContentDescription((n.lida ? "" : "Nova notificação. ") + n.titulo + ". " + n.mensagem);
     }
 

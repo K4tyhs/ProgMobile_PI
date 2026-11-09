@@ -25,13 +25,8 @@ import com.example.proximaetapa.R;
 import com.example.proximaetapa.data.local.entity.Evento;
 import com.example.proximaetapa.util.DateUtils;
 
-/**
- * Linhas do calendário semanal (7 dias). Cada dia tem uma lista horizontal
- * (RecyclerView interna) com os cards dos eventos daquele dia.
- */
 public class DiaAgendaAdapter extends RecyclerView.Adapter<DiaAgendaAdapter.VH> {
 
-    /** Um dia da semana com seus eventos. */
     public static class Dia {
         public final long meiaNoite;
         public final List<Evento> eventos = new ArrayList<>();
@@ -48,7 +43,6 @@ public class DiaAgendaAdapter extends RecyclerView.Adapter<DiaAgendaAdapter.VH> 
 
     private final List<Dia> dias = new ArrayList<>();
     private final Listener listener;
-    /** As listas internas compartilham o mesmo "pool" de views (melhor desempenho). */
     private final RecyclerView.RecycledViewPool poolEventos = new RecyclerView.RecycledViewPool();
 
     public DiaAgendaAdapter(Listener listener) {
@@ -105,7 +99,6 @@ public class DiaAgendaAdapter extends RecyclerView.Adapter<DiaAgendaAdapter.VH> 
         }
     }
 
-    /** Lista horizontal com os cards dos eventos de um dia. */
     class EventosDoDiaAdapter extends RecyclerView.Adapter<EventosDoDiaAdapter.EventoVH> {
 
         private Dia dia;
@@ -126,7 +119,6 @@ public class DiaAgendaAdapter extends RecyclerView.Adapter<DiaAgendaAdapter.VH> 
         public void onBindViewHolder(@NonNull EventoVH h, int position) {
             Evento e = dia.eventos.get(position);
             boolean inscrito = dia.inscrito.get(position);
-            // Roxo = inscrito; verde = vestibular/evento externo
             int cor = ContextCompat.getColor(h.itemView.getContext(),
                     e.isExterno() && !inscrito ? R.color.pe_verde_texto : R.color.pe_roxo_vivo);
             h.card.setCardBackgroundColor(ColorStateList.valueOf(cor));

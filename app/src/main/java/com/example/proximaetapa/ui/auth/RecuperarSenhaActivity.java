@@ -14,13 +14,8 @@ import com.google.android.material.snackbar.Snackbar;
 import com.example.proximaetapa.R;
 import com.example.proximaetapa.data.repository.AppRepository;
 
-/**
- * Recuperação de senha: o Supabase envia um e-mail com um link. Ao tocar no
- * link, o celular abre a tela {@link NovaSenhaActivity}.
- */
 public class RecuperarSenhaActivity extends AppCompatActivity {
 
-    /** E-mail já digitado na tela de login (opcional). */
     public static final String EXTRA_EMAIL = "email";
 
     private EditText edtEmail;

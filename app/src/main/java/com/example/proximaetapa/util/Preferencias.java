@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
-/** Configurações do app (aparência e notificações). Não contém dados pessoais. */
 public final class Preferencias {
 
     private static final String ARQUIVO = "pe_config";

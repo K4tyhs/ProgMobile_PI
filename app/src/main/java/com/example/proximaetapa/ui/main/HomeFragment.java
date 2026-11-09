@@ -37,11 +37,6 @@ import com.example.proximaetapa.ui.certificados.CertificadosActivity;
 import com.example.proximaetapa.ui.evento.EventoDetalheActivity;
 import com.example.proximaetapa.util.DateUtils;
 
-/**
- * Home = aba de notificações (RFM02, RFM04, RFM11).
- * Mostra: banner, evento inscrito mais próximo ("Está chegando..."),
- * avisos da Próxima Etapa e os próximos cursos/palestras.
- */
 public class HomeFragment extends Fragment {
 
     private AppRepository repo;
@@ -51,7 +46,6 @@ public class HomeFragment extends Fragment {
     private List<Evento> eventos = new ArrayList<>();
     private Set<Long> inscritos = new HashSet<>();
     private Map<Long, Integer> presencasPorEvento = new HashMap<>();
-    /** false = "Próximos cursos"; true = "Meus cursos" (RFM03). */
     private boolean mostrarMeusCursos = false;
     private TextView txtSemCursos;
 
@@ -77,32 +71,27 @@ public class HomeFragment extends Fragment {
         txtSemAvisos = v.findViewById(R.id.txt_sem_avisos);
         txtSemCursos = v.findViewById(R.id.txt_sem_cursos);
 
-        // Filtro de cursos: disponíveis x inscritos
         ChipGroup filtro = v.findViewById(R.id.chips_filtro_cursos);
         filtro.setOnCheckedStateChangeListener((grupo, ids) -> {
             mostrarMeusCursos = ids.contains(R.id.chip_meus_cursos);
             atualizar();
         });
 
-        // Atalho para o calendário
         View.OnClickListener irAgenda = x -> ((MainActivity) requireActivity()).irParaAba(R.id.nav_agenda);
         cardProximo.setOnClickListener(irAgenda);
         v.findViewById(R.id.btn_proximo).setOnClickListener(irAgenda);
 
-        // Notificações
         RecyclerView rvNotificacoes = v.findViewById(R.id.rv_notificacoes);
         rvNotificacoes.setLayoutManager(new GridLayoutManager(requireContext(), 1));
         notificacaoAdapter = new NotificacaoAdapter(this::abrirNotificacao);
         rvNotificacoes.setAdapter(notificacaoAdapter);
         configurarArrastarParaApagar(rvNotificacoes);
 
-        // Cursos e palestras
         RecyclerView rvCursos = v.findViewById(R.id.rv_cursos);
         rvCursos.setLayoutManager(new GridLayoutManager(requireContext(), 1));
         cursoAdapter = new CursoAdapter(this::abrirEvento);
         rvCursos.setAdapter(cursoAdapter);
 
-        // Observa o banco local: a tela se atualiza sozinha após a sincronização
         repo.notificacoes().observe(getViewLifecycleOwner(), lista -> {
             notificacaoAdapter.setItens(lista);
             txtSemAvisos.setVisibility(lista == null || lista.isEmpty() ? View.VISIBLE : View.GONE);
@@ -136,7 +125,6 @@ public class HomeFragment extends Fragment {
 
         for (Evento e : eventos) {
             boolean inscrito = inscritos.contains(e.id);
-            // "Meus cursos": todos os inscritos, inclusive os já concluídos
             if (inscrito && !e.isExterno()) meusCursos.add(e);
             if (e.jaTerminou(agora)) continue;
             if (!e.isExterno()) cursosFuturos.add(e);
@@ -144,7 +132,6 @@ public class HomeFragment extends Fragment {
                 proximo = e;
             }
         }
-        // Meus cursos: os mais recentes primeiro
         Collections.reverse(meusCursos);
         List<Evento> lista = mostrarMeusCursos ? meusCursos : cursosFuturos;
         cursoAdapter.setItens(lista, inscritos, presencasPorEvento);
@@ -188,7 +175,6 @@ public class HomeFragment extends Fragment {
         startActivity(i);
     }
 
-    /** Arrastar o card para o lado apaga a notificação (com opção de desfazer). */
     private void configurarArrastarParaApagar(RecyclerView rv) {
         ItemTouchHelper.SimpleCallback cb = new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {

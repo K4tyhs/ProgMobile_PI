@@ -70,7 +70,6 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Descrição das dimensões principais -->
             <TextView
                 android:id="@+id/txt_descricoes"
                 android:layout_width="0dp"

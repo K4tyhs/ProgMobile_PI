@@ -2,12 +2,10 @@
 <resources>
     <string name="app_name">Próxima Etapa</string>
 
-    <!-- Logo -->
     <string name="logo_descricao">Logotipo Próxima Etapa</string>
     <string name="logo_proxima">PRÓXIMA</string>
     <string name="logo_etapa">ETAPA</string>
 
-    <!-- Comuns -->
     <string name="ok">OK</string>
     <string name="cancelar">Cancelar</string>
     <string name="confirmar">Confirmar</string>
@@ -25,7 +23,6 @@
     <string name="proxima">Próxima</string>
     <string name="sincronizar">Sincronizar dados</string>
 
-    <!-- Login e cadastro -->
     <string name="login_titulo">Login:</string>
     <string name="cadastro_titulo">Cadastro:</string>
     <string name="campo_email">E-mail</string>
@@ -66,7 +63,6 @@
     <string name="erro_senhas_diferentes">As senhas não são iguais</string>
     <string name="erro_nome">Digite seu nome e sobrenome</string>
 
-    <!-- Navegação -->
     <string name="nav_notificacoes">Notificações</string>
     <string name="nav_bolsas">Bolsas</string>
     <string name="nav_agenda">Calendário</string>
@@ -77,7 +73,6 @@
     <string name="aviso_offline">Você está sem internet. Mostrando os dados salvos no celular; o que você fizer será enviado quando a conexão voltar.</string>
     <string name="proxia_balao">Olá, eu sou a ProxIA e estou aqui para te auxiliar em qualquer dúvida!</string>
 
-    <!-- Menu hambúrguer -->
     <string name="menu_configuracoes">Configurações</string>
     <string name="menu_ingressos">Meus ingressos</string>
     <string name="menu_testes">Testes de perfil</string>
@@ -89,7 +84,6 @@
     <string name="sair_titulo">Sair da conta?</string>
     <string name="sair_mensagem">Os dados salvos neste celular serão apagados. Você pode entrar de novo quando quiser.</string>
 
-    <!-- Home -->
     <string name="home_slogan">Aprendizado nunca é demais</string>
     <string name="home_banner_titulo">Seu futuro começa aqui!</string>
     <string name="home_banner_sub">Descubra habilidades e novas oportunidades para você.</string>
@@ -112,7 +106,6 @@
     <string name="sem_cursos_disponiveis">Nenhum curso novo no momento. Avisaremos quando abrir inscrição!</string>
     <string name="sem_meus_cursos">Você ainda não se inscreveu em nenhum curso. Escolha um em \"Próximos cursos\".</string>
 
-    <!-- Bolsas -->
     <string name="bolsas_chip">Intercâmbios e bolsas</string>
     <string name="bolsas_titulo">O mundo te espera!</string>
     <string name="bolsas_sub">Conheça oportunidades reais para estudar e explorar o mundo.</string>
@@ -123,14 +116,12 @@
     <string name="requisitos">Requisitos</string>
     <string name="prazo">Prazo: %1$s</string>
 
-    <!-- Calendário -->
     <string name="semana_anterior">Semana anterior</string>
     <string name="proxima_semana">Próxima semana</string>
     <string name="voltar_para_hoje">Voltar para a semana atual</string>
     <string name="legenda_inscrito">Inscrito(a)</string>
     <string name="legenda_externo">Vestibulares e eventos externos</string>
 
-    <!-- Detalhes do evento -->
     <string name="detalhe_evento">Detalhes</string>
     <string name="meta_carga">%1$dh de carga horária</string>
     <string name="meta_participacao">Sua participação: %1$d%% (%2$d de %3$d)</string>
@@ -146,7 +137,6 @@
     <string name="sem_app_agenda">Nenhum app de agenda encontrado no celular.</string>
     <string name="sem_navegador">Nenhum navegador encontrado no celular.</string>
 
-    <!-- Convite / ingresso com QR Code (a presença é validada pelo leitor web) -->
     <string name="convite_titulo">Meu ingresso</string>
     <string name="convite_especial">CONVITE ESPECIAL</string>
     <string name="convite_texto">Você, %1$s, foi selecionado(a) para participar com a gente de \"%2$s\", que vai acontecer em %3$s (%4$s).\n\nToque no convite para ver o seu QR Code de entrada e apresente na entrada de cada encontro. Aguardamos você lá!</string>
@@ -168,7 +158,6 @@
     <string name="presenca_hoje_confirmada">Presença de hoje confirmada às %1$s. Bom encontro!</string>
     <string name="participacao_evento">Participação: %1$d%% (%2$d de %3$d encontros)</string>
 
-    <!-- Meus ingressos -->
     <string name="lembrete_ingressos">Lembrete: caso você aceite o convite e não compareça no dia do evento, ficará suspenso(a) das atividades durante 3 meses. Se não puder comparecer, cancele sua inscrição até 72h antes do evento.</string>
     <string name="seus_ingressos">Seus ingressos</string>
     <string name="sem_ingressos">Você ainda não tem ingressos para os próximos eventos.</string>
@@ -184,7 +173,6 @@
     <string name="cancelar_inscricao_titulo">Cancelar inscrição?</string>
     <string name="cancelar_inscricao_msg">Sua vaga em \"%1$s\" será liberada para outro estudante.</string>
 
-    <!-- Certificados -->
     <string name="cert_nome">Nome: %1$s</string>
     <string name="cert_perfil">Perfil: %1$s</string>
     <string name="cert_faca_teste">faça o teste</string>
@@ -199,7 +187,6 @@
     <string name="cert_erro_pdf">Não foi possível gerar o PDF. Tente novamente.</string>
     <string name="sem_leitor_pdf">Instale um leitor de PDF para abrir o certificado.</string>
 
-    <!-- Testes de perfil -->
     <string name="testes_titulo">Teste de Perfil</string>
     <string name="inicie_seu_teste">Inicie seu teste</string>
     <string name="teste_sub">%1$s · ~%2$d minutos</string>
@@ -216,7 +203,6 @@
     <string name="sua_pontuacao">Sua pontuação</string>
     <string name="cursos_sugeridos">Cursos da Próxima Etapa sugeridos</string>
 
-    <!-- Perfil -->
     <string name="perfil_sem_linkedin">Adicionar LinkedIn</string>
     <string name="cartao_marca">PRÓXIMA ETAPA · CARTÃO DO ALUNO</string>
     <string name="cartao_matricula">Matrícula %1$s</string>
@@ -237,7 +223,6 @@
     <string name="perfil_sem_interesses">Nenhum interesse escolhido</string>
     <string name="badges_titulo">Badges: %1$d de %2$d</string>
 
-    <!-- Editar perfil / onboarding -->
     <string name="onboarding_titulo">Conte sobre você</string>
     <string name="onboarding_msg">Bem-vindo(a)! Escolha seus interesses para receber avisos que combinam com você. Você pode pular e fazer isso depois.</string>
     <string name="seus_interesses">Seus interesses</string>
@@ -247,11 +232,9 @@
     <string name="pular_por_enquanto">Pular por enquanto</string>
     <string name="perfil_salvo">Perfil atualizado!</string>
 
-    <!-- Chat -->
     <string name="proxia">ProxIA</string>
     <string name="chat_hint">Digite sua pergunta aqui…</string>
 
-    <!-- Configurações -->
     <string name="config_aparencia">Aparência</string>
     <string name="config_tema_escuro">Tema escuro</string>
     <string name="config_notificacoes">Notificações</string>
@@ -270,7 +253,6 @@
     <string name="versao">Próxima Etapa · versão %1$s · %2$s</string>
     <string name="modo_api">conectado ao Supabase</string>
 
-    <!-- Notificações do sistema -->
     <string name="canal_notificacao_nome">Avisos da Próxima Etapa</string>
     <string name="canal_notificacao_desc">Novos cursos, palestras, prazos de vestibular e certificados</string>
 

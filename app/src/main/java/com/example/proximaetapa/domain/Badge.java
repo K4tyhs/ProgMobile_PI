@@ -1,12 +1,7 @@
 package com.example.proximaetapa.domain;
 
-/**
- * Conquista (badge) do aluno. Os badges servem para engajar o estudante e,
- * na página web administrativa, para elencar os alunos mais ativos.
- */
 public class Badge {
 
-    /** Grupo "jornada" = badges de completar o perfil; demais = nome da faculdade. */
     public static final String GRUPO_JORNADA = "Jornada";
 
     public final String nome;

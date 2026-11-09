@@ -32,12 +32,6 @@ import com.example.proximaetapa.ui.adapter.PresencaAdapter;
 import com.example.proximaetapa.ui.convite.ConviteActivity;
 import com.example.proximaetapa.ui.evento.EventoDetalheActivity;
 
-/**
- * Meus ingressos (menu hambúrguer):
- *  - convites das palestras/cursos que ainda vão acontecer (entrada com QR Code);
- *  - participação em cada curso inscrito: presenças, faltas e % (RFM07);
- *  - histórico de cada presença registrada, mostrando se já foi sincronizada.
- */
 public class MeusIngressosActivity extends BaseActivity {
 
     private AppRepository repo;
@@ -85,7 +79,6 @@ public class MeusIngressosActivity extends BaseActivity {
         ((RecyclerView) findViewById(R.id.rv_participacao)).setAdapter(participacaoAdapter);
         ((RecyclerView) findViewById(R.id.rv_presencas)).setAdapter(presencaAdapter);
 
-        // Tudo vem do banco local (Room): funciona sem internet
         repo.ingressos().observe(this, lista -> {
             inscricoes = lista == null ? new ArrayList<>() : lista;
             atualizar();
@@ -107,7 +100,6 @@ public class MeusIngressosActivity extends BaseActivity {
     private void atualizar() {
         long agora = System.currentTimeMillis();
 
-        // 1) Ingressos: só eventos que ainda não terminaram
         List<InscricaoComEvento> futuros = new ArrayList<>();
         for (InscricaoComEvento i : inscricoes) {
             if (i.evento != null && !i.evento.jaTerminou(agora)) futuros.add(i);
@@ -115,7 +107,6 @@ public class MeusIngressosActivity extends BaseActivity {
         ingressoAdapter.setItens(futuros);
         txtSemIngressos.setVisibility(futuros.isEmpty() ? View.VISIBLE : View.GONE);
 
-        // 2) Participação em cada curso inscrito (inclusive os já concluídos)
         Map<Long, Integer> presPorEvento = new HashMap<>();
         for (Presenca p : presencas) {
             Integer n = presPorEvento.get(p.eventoId);
@@ -136,9 +127,7 @@ public class MeusIngressosActivity extends BaseActivity {
         participacaoAdapter.setItens(participacao);
         txtSemParticipacao.setVisibility(participacao.isEmpty() ? View.VISIBLE : View.GONE);
 
-        // 3) Histórico de presenças registradas
         presencaAdapter.setDados(presencas, eventos);
-        // Presenças vêm só do servidor (leitor web): não há fila local para mostrar
         txtResumo.setText(getResources().getQuantityString(R.plurals.presencas_registradas,
                 presencas.size(), presencas.size()));
     }

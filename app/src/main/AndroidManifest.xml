@@ -2,18 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Comunicação com a API e verificação de conexão -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!-- O app NÃO lê QR Code: o check-in é feito por um leitor web externo.
-         Remove a permissão de câmera que a biblioteca ZXing traria no merge. -->
     <uses-permission
         android:name="android.permission.CAMERA"
         tools:node="remove" />
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
-    <!-- Notificações (Android 13+) -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
@@ -27,7 +23,6 @@
         android:theme="@style/Theme.ProximaEtapa"
         tools:targetApi="34">
 
-        <!-- Tela inicial: login (pula direto para a Home se já houver sessão) -->
         <activity
             android:name=".ui.auth.LoginActivity"
             android:exported="true"
@@ -48,7 +43,6 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
-        <!-- Aberta pelo link do e-mail de recuperação de senha (Supabase Auth) -->
         <activity
             android:name=".ui.auth.NovaSenhaActivity"
             android:exported="true"
@@ -110,12 +104,10 @@
             android:name=".ui.config.ConfiguracoesActivity"
             android:exported="false" />
 
-        <!-- Leitor de QR Code da ZXing não é usado (o app só gera o ingresso) -->
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             tools:node="remove" />
 
-        <!-- Compartilha os PDFs de certificado com outros apps de forma segura -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

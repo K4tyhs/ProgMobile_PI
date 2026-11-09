@@ -14,7 +14,6 @@ import java.util.List;
 import com.example.proximaetapa.R;
 import com.example.proximaetapa.data.local.entity.MensagemChat;
 
-/** Mensagens do chat: dois tipos de item (aluno à direita, ProxIA à esquerda). */
 public class MensagemAdapter extends RecyclerView.Adapter<MensagemAdapter.VH> {
 
     private static final int TIPO_USUARIO = 1;

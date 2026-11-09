@@ -19,10 +19,8 @@ import com.example.proximaetapa.R;
 import com.example.proximaetapa.data.local.entity.Certificado;
 import com.example.proximaetapa.data.local.entity.Evento;
 
-/** Grade de cursos: os concluídos ficam destacados e abrem o certificado. */
 public class CertificadoAdapter extends RecyclerView.Adapter<CertificadoAdapter.VH> {
 
-    /** Um curso e, se houver, o certificado dele. */
     public static class Item {
         public final Evento evento;
         public final Certificado certificado;
@@ -74,7 +72,6 @@ public class CertificadoAdapter extends RecyclerView.Adapter<CertificadoAdapter.
         h.icone.setColorFilter(ContextCompat.getColor(h.itemView.getContext(),
                 concluido ? R.color.pe_verde_texto : R.color.pe_texto_sec));
         if (concluido) {
-            // Fundo verde claro fixo (também no tema escuro): texto escuro para contraste
             h.instituicao.setTextColor(ContextCompat.getColor(h.itemView.getContext(), R.color.pe_ink));
         }
 

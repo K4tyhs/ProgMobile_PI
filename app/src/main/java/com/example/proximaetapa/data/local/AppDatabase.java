@@ -25,18 +25,11 @@ import com.example.proximaetapa.data.local.entity.Notificacao;
 import com.example.proximaetapa.data.local.entity.Presenca;
 import com.example.proximaetapa.data.local.entity.ResultadoTeste;
 
-/**
- * Banco local (SQLite via Room). Guarda uma cópia dos dados do aluno para o
- * app funcionar sem internet e uma fila do que ainda precisa subir para a API.
- */
 @Database(
         entities = {
                 Aluno.class, Evento.class, Inscricao.class, Presenca.class, Certificado.class,
                 Notificacao.class, Bolsa.class, ResultadoTeste.class, MensagemChat.class
         },
-        // 2 = índices de desempenho; 3 = telefone do aluno;
-        // 4 = presença somente leitura (sem fila local: quem registra é o leitor web);
-        // 5 = evento sem codigoCheckin (o QR é do ingresso, não do evento)
         version = 5,
         exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {

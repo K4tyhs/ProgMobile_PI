@@ -12,10 +12,6 @@ import androidx.core.content.ContextCompat;
 
 import com.example.proximaetapa.R;
 
-/**
- * Gráfico de rosca: presenças x faltas x encontros futuros.
- * O percentual de participação aparece no centro (dado numérico do PDP).
- */
 public class DonutChartView extends View {
 
     private final Paint fatia = new Paint(Paint.ANTI_ALIAS_FLAG);
